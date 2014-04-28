@@ -15,8 +15,8 @@ class Catalog4::CategoryItem < ActiveRecord::Base
 
    # colors references
 
-   has_and_belongs_to_many :category_item_colors
-   attr_accessible :category_item_colors, :category_item_color_ids
+   #has_and_belongs_to_many :catalog4_category_item_colors
+   #attr_accessible :catalog4_category_item_colors, :catalog4_category_item_color_ids
 
    #accepts_nested_attributes_for :category_item_colors#, :allow_destroy => true
    #attr_accessible :category_item_colors_attributes#, :allow_destroy => true
@@ -55,9 +55,9 @@ class Catalog4::CategoryItem < ActiveRecord::Base
       field :category_item_images do
         label 'картинки для продукта'
       end
-      field :category_item_colors do
-        label 'цвета для продукта'
-      end
+      #field :category_item_colors do
+      #  label 'цвета для продукта'
+      #end
     end
 
     edit do
@@ -80,9 +80,9 @@ class Catalog4::CategoryItem < ActiveRecord::Base
       field :category_item_images do
         label 'картинки для продукта'
       end
-      field :category_item_colors do
-        label 'цвета для продукта'
-      end
+      #field :category_item_colors do
+      #  label 'цвета для продукта'
+      #end
     end
   end
 end

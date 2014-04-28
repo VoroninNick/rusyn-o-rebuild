@@ -3,7 +3,7 @@
 class Catalog4::CategoryItemImage < ActiveRecord::Base
   attr_accessible :category_item_id, :image_alt, :image_content_type, :image_file_name, :image_file_size, :image_updated_at, :short_description, :image_height, :image_width, :image_ratio
 
-  belongs_to :catalogtegory_item, :inverse_of => :category_item_images
+  belongs_to :catalog_category_item, :inverse_of => :category_item_images
 
 
   attr_accessible :image, :delete_image
@@ -57,7 +57,7 @@ class Catalog4::CategoryItemImage < ActiveRecord::Base
       	#label :image
       end
 
-      field :image_file_name
+      #field :image_file_name
 
       field :image_width do
         hide
