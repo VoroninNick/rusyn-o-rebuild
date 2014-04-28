@@ -13,9 +13,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+// turbolinks
 //= require modernizr.custom.79639
 //= require jquery.mousewheel
 //= require fancybox/jquery.fancybox
 //= require fancybox/helpers/jquery.fancybox-buttons
 //= require fancybox/helpers/jquery.fancybox-thumbs
 //= require fancybox/helpers/jquery.fancybox-media
+
+
+// require contact
