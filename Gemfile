@@ -4,7 +4,7 @@ gem 'rails', '>= 4.0.0'
 gem 'sqlite3'
 
 group :assets do
-  gem 'sass-rails'
+  #gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
 end
@@ -34,4 +34,13 @@ gem 'mini_magick'
 
 gem 'analytical'
 
-gem 'sprockets', '>= 2.12.1'
+
+gem 'better_errors'
+gem 'binding_of_caller'
+
+
+gem 'sass-rails', '~> 4.0.0'
+gem 'railties', '>= 4.0.0'
+gem 'sass', '~> 3.2.0'
+gem 'sprockets', '<= 2.11.0'
+gem 'sprockets-rails', '~> 2.0.0'
