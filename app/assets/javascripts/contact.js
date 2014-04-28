@@ -1,5 +1,5 @@
 $(document).ready(function(){
-   $('#contact-page').each(function(){
+   $('.page-content.contact').each(function(){
        var lat=49.525727;
        var lng=23.971975;
 

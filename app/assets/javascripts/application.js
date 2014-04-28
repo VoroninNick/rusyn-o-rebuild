@@ -22,4 +22,4 @@
 //= require fancybox/helpers/jquery.fancybox-media
 
 
-// require contact
+//= require contact
