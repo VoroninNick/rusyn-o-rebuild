@@ -1,0 +1,29 @@
+#new_admin{
+  width: 460px;
+
+   .button{
+     margin: 1em 0 !important;
+   }
+
+  .sin_in_fields{
+    width: 100%;
+    text-align: left;
+    float: left;
+    margin-bottom: 0;
+
+    &:first-child{
+      margin: 1em 0;
+    }
+    &:last-child{
+      margin: 1em 0;
+    }
+
+    #admin_remember_me{
+      height: 24px;
+      width: 24px;
+      margin-right: 1em;
+      text-align: left;
+      float: left;
+    }
+  }
+}

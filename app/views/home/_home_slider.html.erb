@@ -1,0 +1,291 @@
+<div id="slider-wrapper" style="display:none;">
+<style>
+<% @banners.each_with_index do |b,index| %>
+#slider .sl-slider .sl-slide .sl-slide-inner .bg-img.bg-img-<%= b.position %>  {
+	background-image: url(<%= b.banner_image.url(:bw_home_banner) %>);
+	/* my3x123 */
+}
+#slider .sl-slider .sl-slide .sl-slide-inner .bg-img.bg-img-<%= b.position %> .colored  {
+	background: inherit;
+	background-image: url(<%= b.banner_image.url(:home_banner) %>);
+	/* my3x123 */
+	width: 100%;
+	position: absolute;
+	height: 100%;
+	opacity: 0;
+	/*margin-top: 2px;*/
+	left:0;
+	top: 0;
+	height: inherit;
+	width: inherit;
+}
+
+
+
+<% end %>
+
+.sl-slider, #slslider{
+	width: 100% !important;
+	height:100% !important;
+	max-width: 100% !important;
+}
+
+	
+</style>
+
+<script type="text/javascript">
+$(window).load(function(){
+<% @banners.each_with_index do |b,index| %>
+	
+	var pos= <%= b.position %>;
+	var bw_selector = '#slider .sl-slider .sl-slide .sl-slide-inner .bg-img.bg-img-'+pos;
+	var $bw=$(bw_selector);
+	var $colored_image_div = $('<div></div>').appendTo($bw);
+	$colored_image_div.addClass('colored');
+	var colored_image_div_selector = bw_selector+' .colored';
+	
+	$bw.data({
+		position: pos,
+		bw: true
+	});
+	
+	$colored_image_div.data({
+		position: pos,
+		bw: false
+	});
+
+
+	
+	$('#slider').mouseover(function(){
+		console.log('bw');
+		var pos= <%= b.position %>;
+		var bw_selector = '#slider .sl-slider .sl-slide .sl-slide-inner .bg-img.bg-img-'+pos;
+		var colored_image_div_selector = bw_selector+' .colored';
+		$colored = $(colored_image_div_selector);
+		//$colored.css('opacity','1');
+		$colored.stop().animate({opacity:1},500);
+		//cl = $colored;
+	});
+	$('#slider').mouseout(function(){
+		console.log('colored');
+
+		var pos= <%= b.position %>;
+		var bw_selector = '#slider .sl-slider .sl-slide .sl-slide-inner .bg-img.bg-img-'+pos;
+		var colored_image_div_selector = bw_selector+' .colored';
+		$colored = $(colored_image_div_selector);
+		//$colored.css('opacity','0');
+		$colored.stop().animate({opacity:0},500);
+		//cl = $colored;
+
+	});
+
+
+<% end %>
+
+(function($){
+		var $total_items = $('#slider-wrapper .sl-slide .bg-img, #slider-wrapper .sl-slide .bg-img>div.colored');
+		var total = $total_items.length;
+		var loaded = 0;
+		var $loaded_items = [];
+		var waitFor = 1;
+		var WAIT_FOR_FIRST_BOTH_BW_AND_COLORED = 'WAIT_FOR_FIRST_BOTH_BW_AND_COLORED';
+		waitFor = WAIT_FOR_FIRST_BOTH_BW_AND_COLORED;
+		console.log('total:'+total);
+
+		function checkWaiting(){
+			if(total == loaded){
+				return false;
+			}
+			else if(loaded == 0){
+				return true;
+			}
+			if( waitFor == WAIT_FOR_FIRST_BOTH_BW_AND_COLORED ){
+				
+				var remain = 1;
+				//$loaded_items[$loaded_items]
+				for(var i=0;i < $loaded_items.length;i++){
+					if( remain > 0 ){
+						var data = $loaded_items[i];
+						//console.log('WAIT_FOR_FIRST_BOTH_BW_AND_COLORED => for loop => if( remain > 0 )');
+						//console.log(data);
+						if(data.position == 1 && data.bw){
+							remain--;
+						}
+					}
+					else{
+						//console.log('WAIT_FOR_FIRST_BOTH_BW_AND_COLORED => false');
+						return false;
+					}
+				}
+
+				if( remain > 0 ){
+					//console.log('WAIT_FOR_FIRST_BOTH_BW_AND_COLORED => remain = 0')
+					return true;
+				}
+			}
+
+			return true;
+		}
+
+		$total_items.each(function(){
+			var $bgi = $(this);
+			var bgi = $bgi.css('background-image');
+			var $img = $('<img />');
+			$img.css('display','none');
+			//console.log('img=>data');
+			//console.log($bgi.data());
+			//console.log('img=>data end');
+			$img.data({
+				position: $bgi.data('position'),
+				bw: $bgi.data('bw')
+			});
+
+			$img.load(function(){
+				if( checkWaiting() ){
+					var $img = $(this);
+					$loaded_items[$loaded_items.length] = $(this).data();
+					$img.remove();
+					loaded++;
+					
+
+					console.log('loaded:'+loaded);
+					if( checkWaiting() == false ){
+						console.log('loaded enought');
+						$('#slider-wrapper').slideDown(1000);
+					}
+				}
+			});
+
+			$img.attr('src',bgi.substr(bgi.indexOf('/assets/')));
+			$('body').append($img);
+		});
+	}(jQuery));
+});
+</script>
+<div id="slider-shadow-holder">
+<div id="slider" class="sl-slider-wrapper demo-2">
+	<div id="logo">
+			<img src="/assets/logo.png"/>
+	</div>
+
+				<div id="slslider" class="sl-slider" style="width: 100% !important;height:100% !important;max-width: 100% !important;">
+				
+				<% @banners.each_with_index do |b,index| %>
+					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+						<div class="sl-slide-inner">
+							<a href="<%= b.link_to %>">
+								<div class="bg-img bg-img-<%= b.position %>">
+									<!--<div class="bw-wrapper" style="width:100%;height: 100%;z-index: 0;">
+									<img src="/assets/banners/1.jpg"/>
+									</div>-->
+								</div>
+							</a>
+							<div class="description-container">
+								<strong class="title"><%= link_to( b.title, b.link_to ) %></strong>
+								<p><%= b.description %></p>
+							</div>
+						</div>
+					</div>
+				<% end %>
+
+										
+
+					
+					</div>
+					
+					
+				</div><!-- /sl-slider -->
+
+				
+
+
+
+			</div><!-- /slider-wrapper -->
+<nav id="nav-arrows" class="nav-arrows">
+					<span class="nav-arrow-prev">Previous</span>
+					<span class="nav-arrow-next">Next</span>
+				</nav>
+			
+</div>
+        <script type="text/javascript">
+$(function() {
+			
+				var Page = (function() {
+					var $navArrows = $( '#nav-arrows' );
+					var $nav = $( '#nav-dots > span' ),
+						slitslider = $( '#slider' ).slitslider( {
+							onBeforeChange : function( slide, pos ) {
+
+								$nav.removeClass( 'nav-dot-current' );
+								$nav.eq( pos ).addClass( 'nav-dot-current' );
+
+							}
+						} ),
+
+						init = function() {
+
+							initEvents();
+							
+						},
+						initEvents = function() {
+							$navArrows.children( ':last' ).on( 'click', function() {
+
+								slitslider.next();
+								return false;
+
+							} );
+
+							$navArrows.children( ':first' ).on( 'click', function() {
+								
+								slitslider.previous();
+								return false;
+
+							} );
+							$nav.each( function( i ) {
+							
+								$( this ).on( 'click', function( event ) {
+									
+									var $dot = $( this );
+									
+									if( !slitslider.isActive() ) {
+
+										$nav.removeClass( 'nav-dot-current' );
+										$dot.addClass( 'nav-dot-current' );
+									
+									}
+									
+									slitslider.jump( i + 1 );
+									return false;
+								
+								} );
+								
+							} );
+
+						};
+
+						return { init : init };
+
+				})();
+
+				Page.init();
+
+				/**
+				 * Notes: 
+				 * 
+				 * example how to add items:
+				 */
+
+				/*
+				
+				var $items  = $('<div class="sl-slide sl-slide-color-2" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="10" data-slice1-scale="2" data-slice2-scale="1"><div class="sl-slide-inner bg-1"><div class="sl-deco" data-icon="t"></div><h2>some text</h2><blockquote><p>bla bla</p><cite>Margi Clarke</cite></blockquote></div></div>');
+				
+				// call the plugin's add method
+				ss.add($items);
+
+				*/
+			
+			});
+$(document).ready(function(){
+		
+	});
+        </script>

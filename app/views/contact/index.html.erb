@@ -1,0 +1,21 @@
+<div class="page-content contact">
+	<h1 class="page-title"><%= @body_title %></h1>
+	<div id="contact-info">
+		<div class="contact-info-item address">
+			<%= raw @address %>
+		</div>
+
+		<div class="contact-info-item working-hours">
+			<%= raw @working_hours %>
+		</div>
+
+		<div class="contact-info-item contact">
+			<%= raw @contacts %>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+	<%= render :partial=>'contact/gmap'  %>
+
+	<%= render :partial=> 'contact/request_form' %>
+</div>

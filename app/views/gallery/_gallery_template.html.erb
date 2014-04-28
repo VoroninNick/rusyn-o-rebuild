@@ -1,0 +1,24 @@
+<h1 class="page-title"><%= @body_title %></h1>
+
+	<div id="view">
+		<ul>
+			<li id="images">
+				<% if params[:action] == 'images' %>
+					<span>Всі фотографії</span>
+				<% else %>
+					<a href="/gallery/images">Всі фотографії</a>
+				<% end %>
+			</li>
+			<li id="albums">
+				<% if params[:action] == 'albums' %>
+					<span>Альбоми</span>
+				<% else %>
+					<a href="/gallery/albums">Альбоми</a>
+				<% end %>
+			</li>
+			<div class="clearfix"></div>
+		</ul>
+	</div>
+	<div class="clearfix"></div>
+
+	<%= render :partial => 'gallery/gallery_tags' %>

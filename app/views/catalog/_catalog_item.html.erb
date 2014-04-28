@@ -1,0 +1,88 @@
+<div class="catalog-category-item">
+			<%= render :partial => 'catalog/catalog_item_images', :locals => {:item => item } %>
+			<div class="item-info">
+				<strong class="catalog-category-item-title">
+					<img src="/assets/about-image.png"/>
+					<%= item.name %>
+                </strong>
+				
+				<div class="field size">
+				<% sizes = item.getSizeAsArray
+				 if sizes.count > 0  %>
+				<ul>
+					<li class="label">Розмір виробу (в мм):</li>
+					<% sizes.each do |size| %>
+					<li>
+						<% size.each_with_index do |number,index| %>
+							<span><%= number %></span>
+							<% if index < size.count - 1 then %>
+								<span> x </span>
+							<% end %>
+						<% end %>	
+					</li>
+					<% end %>
+				</ul>
+				<% end %>
+				</div>
+				
+				<div class="field quantity">
+					<ul>
+						<% if item.quantity == '1' %>
+						<li>
+							<span>
+							  Відпуск поштучно
+							</span>
+						</li>
+						<% else %>	
+						<li class="label">К-сть на піддоні:</li>
+						<li>
+							<span>
+							  <%= item.quantity %>
+							</span>
+						</li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="field weight">
+					<ul>
+						<% #if item['category_id'] == 22 || item.category.parent_category_id == 22  %>
+						<% if item.quantity == '1' %>
+							<li class="label">Вага (1шт.):</li>
+							<li>
+								<span>
+							  		<%= item.weight %>
+								</span>
+							</li>
+						<% else %>
+						<li class="label">Вага піддона:</li>
+						<li>
+							<span>
+							  <%= item.weight %>
+							</span>
+						</li>
+						<% end %>
+					</ul>
+
+				</div>
+
+				<div class="field available-colors">
+					<span class="label">Доступні кольори:</span>
+					<ul>
+						<% item.category_item_colors.each do |color| %>
+							<li>
+								<div class="tooltip bottom">
+									<span class="color-name"><%= color.name %></span>
+									<img src="<%= color.image.url(:thumb) %>"/>
+
+								</div>
+
+								<img style="background-color: <%= '#'+color.rgb %>;" src="<%= color.image.url(:thumb) %>"/>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="item-separator clearfix"></div>

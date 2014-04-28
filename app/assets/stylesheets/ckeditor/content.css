@@ -1,0 +1,5 @@
+@import "../_init";
+@import "../pages/about";
+.hello{
+	color:red;
+}

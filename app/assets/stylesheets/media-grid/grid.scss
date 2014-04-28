@@ -1,0 +1,201 @@
+
+
+//$indent:2.447552448%;
+$k:0.982;
+$indent:2.44% * $k;
+//$indent:1%;
+$total_width:100% * $k;
+
+
+
+$g1: 	( ($total_width) - 13*($indent) ) / 12 * $k;
+$g2: 	( ($total_width) - 13*($indent) ) / 12 * 2 + 1 * ($indent) * $k;
+$g3: 	( ($total_width) - 13*($indent) ) / 12 * 3 + 2 * ($indent) * $k;
+$g4: 	( ($total_width) - 13*($indent) ) / 12 * 4 + 3 * ($indent) * $k;
+$g5: 	( ($total_width) - 13*($indent) ) / 12 * 5 + 4 * ($indent) * $k;
+$g6:	( ($total_width) - 13*($indent) ) / 12 * 6 + 5 * ($indent) * $k;
+$g7: 	( ($total_width) - 13*($indent) ) / 12 * 7 + 6 * ($indent) * $k;
+$g8: 	( ($total_width) - 13*($indent) ) / 12 * 8 + 7 * ($indent) * $k;
+$g9: 	( ($total_width) - 13*($indent) ) / 12 * 9 + 8 * ($indent) * $k;
+$g10: 	( ($total_width) - 13*($indent) ) / 12 * 10 + 9 * ($indent) * $k;
+$g11: 	( ($total_width) - 13*($indent) ) / 12 * 11 + 10 * ($indent) * $k;
+$g12: 	( ($total_width) - 13*($indent) ) / 12 * 12 + 11 * ($indent) * $k;
+
+@function width-relative-to-main-grid( $container_width_relative_to_main_grid, $required_width ){
+	@return $required_width / $container_width_relative_to_main_grid * 100%;
+} 
+
+@function cell-width-relative-to-document( $total_columns, $required_columns ){
+	$_total_width :  ($total_width) - ( ( $indent ) / ($total_columns) * 12 );
+	$_new_indent:indent-relative-to-document($total_columns);
+	@return ( ($_total_width) - ($total_columns - 2)*($_new_indent) ) / ($total_columns) * ($required_columns) + ($required_columns - 1) * ($_new_indent);
+}
+@function indent-relative-to-document($total_columns){
+	@return ($indent) / ($total_columns) * 12 ;
+}
+
+.g1,
+.g2,
+.g3,
+.g4,
+.g5,
+.g6,
+.g7,
+.g8,
+.g9,
+.g10,
+.g11,
+.g12{
+	float: left;
+	display: inline;
+	position: relative;
+	//margin-left: 0%;
+	margin-right: $indent;
+
+}
+.alpha{
+	 margin-left: $indent;
+	 margin-right: $indent;
+}
+.omega{
+	margin-right: $indent;
+	//margin-left: 0%;
+}
+
+.g1{
+	width: $g1;
+}
+.g2{
+	width: $g2;
+}
+.g3{
+	width: $g3;
+}
+.g4{
+	width: $g4;
+}
+.g5{
+	width: $g5;
+}
+.g6{
+	width: $g6;
+}
+.g7{
+	width: $g7;
+}
+.g8{
+	width: $g8;
+}
+.g9{
+	width: $g9;
+}
+.g10{
+	width: $g10;
+}
+.g11{
+	width: $g11;
+}
+.g12{
+	width: $g12;
+
+	@extend .alpha;
+}
+
+
+
+.indent{
+	width:0%;
+}
+
+@mixin make-page-width{
+  width:90%;
+  max-width:1330px;
+  @media(max-width:1199px){
+    width:100%;
+  }
+  //@media(max-width:959px){
+  //  width:100%;
+  //}
+  //@media(max-width:599px){
+  //  width: 100%;
+  //}
+}
+
+.container{
+
+	/*padding-left: 1%;
+	padding-right: 1%;
+	*/
+
+	@include make-page-width;
+
+	margin-right:auto;
+	margin-left:auto;
+
+}
+
+@function convert-col-to-width($columns:13){
+	$c : $columns;
+	@if $columns == 12{
+		$c: $g12;
+	}
+	@if $columns == 11{
+		$c: $g11;
+	}
+	@if $columns == 10{
+		$c: $g10;
+	}
+	@if $columns == 9{
+		$c: $g9;
+	}
+	@if $columns == 8{
+		$c: $g8;
+	}
+	@if $columns == 7{
+		$c: $g7;
+	}
+	@if $columns == 6{
+		$c: $g6;
+	}
+	@if $columns == 5{
+		$c: $g5;
+	}
+	@if $columns == 4{
+		$c: $g4;
+	}
+	@if $columns == 3{
+		$c: $g3;
+	}
+	@if $columns == 2{
+		$c: $g2;
+	}
+	@if $columns == 1{
+		$c: $g1;
+	}
+	@if $columns == 13 {
+		$c : $total_width;
+	}
+
+	@return $c;
+}
+
+@mixin grid($required_columns:13,$total_columns:13){
+	$_total_width: convert-col-to-width($total_columns);
+	
+	$req_width:convert-col-to-width($required_columns);
+
+	$indent_width:width-relative-to-main-grid($_total_width,$indent);
+	
+	width:width-relative-to-main-grid($_total_width,$req_width);
+	margin-left:0;
+	margin-right: $indent_width;
+}
+
+@mixin alpha($total_columns:13){
+	$_total_width: convert-col-to-width($total_columns);
+
+	$indent_width:width-relative-to-main-grid($_total_width,$indent);
+	
+	margin-left:$indent_width;
+	margin-right:$indent_width;
+}

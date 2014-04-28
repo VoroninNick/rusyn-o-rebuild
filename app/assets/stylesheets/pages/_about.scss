@@ -1,0 +1,174 @@
+
+
+div.page-content.about{
+  	padding-bottom: 80px;
+	.page-title{
+		
+	}
+	#intro{
+		#title{
+			@include init-grid;
+			@include grid(7);
+			float: right;
+			  margin-bottom: 0.5em;
+			  letter-spacing: -1px;
+			  margin-right: 2.36%;
+			  //font-size: 1.35em !important;
+			  //line-height: 26px !important;
+			  //float: left;
+
+			  	@media(max-width:480px){
+					@include grid(12);
+				}
+			}
+		#intro-text{
+			@include init-grid;
+			@include grid(7);
+			float: right;
+			margin-right: 2.36%;
+
+			@media(max-width:480px){
+				@include grid(12);
+			}
+		}
+		#intro-img{
+			
+			//float: left;
+			@include init-grid;
+			@include grid(5);
+			float: left;
+			
+			text-align: center;
+
+			@media(max-width:480px){
+				@include grid(12);
+			}
+
+			img{
+				width: 100%;
+			}
+		}
+	}
+
+	#about-content-holder{
+		@include init-grid;
+		@include grid(12);
+	}
+
+	div#props{
+
+		background-color: #eee;
+		width:  100%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 50px;
+		padding-top: 30px;
+		padding-bottom: 60px;
+		h2{
+			@include init-grid;
+			@include grid(11);
+			color: $red_color;
+			margin-left: 5.77667% + 2 * 2.36%;
+			font-size: 1.25em;
+		  letter-spacing: -1px;margin-bottom: 0.5em;
+			font-weight: 400;
+		}
+		#left-col{
+			@include init-grid;
+			@include grid(5);
+			margin-left: 5.77667% +  2*2.36%;
+		}
+		#right-col{
+			@include init-grid;
+			@include grid(5);
+			margin-left:  2 * 2.36%;
+			margin-right: 5.77667% + 2.36%;
+		}
+	}
+
+	#services{
+		margin-top: 60px;
+		width:100%;
+		#text{
+			@include init-grid;
+			@include grid(7);
+
+			@media(max-width:480px){
+				@include grid(12);
+			}
+		}
+		#img{
+			@include init-grid;
+			@include grid(5);	
+
+			img{
+				width:100%;
+			}
+
+			@media(max-width:480px){
+				@include grid(12);
+			}
+		}
+
+	}
+
+	#goals{
+		width:100%;
+		#left-col{
+			@include init-grid;
+			@include grid(4);
+
+			text-align: right;
+		}
+		.right-col{
+			@include init-grid;
+			@include grid(8);
+		}	
+	}
+
+	#certification{
+		width:100%;
+		margin-top: 60px;
+		padding-bottom: 30px;
+		#left-col{
+			@include init-grid;
+			@include grid(7);
+
+			//text-align: right;
+			h2{
+			  letter-spacing: -1px;
+				//margin-bottom: 5px;
+				//margin-left: 0;
+			}
+
+			@media(max-width:480px){
+				@include grid(12);
+			}
+		}
+		.right-col{
+			@include init-grid;
+			@include grid(5);
+			.image-container{
+				//width:80%;
+				margin-left: auto;
+				margin-right: auto;
+				text-align: center;
+				img{
+					max-width: 289px;
+					max-height: 416px;
+					margin-left: auto;
+					margin-right: auto;
+					//margin-left: auto;
+					//margin-right: auto;
+					@media(max-width:775px){
+						width:100%;
+					}
+				}
+			}
+
+			@media(max-width:480px){
+				@include grid(12);
+			}
+		}	
+	}
+}

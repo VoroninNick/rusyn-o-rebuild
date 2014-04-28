@@ -1,0 +1,16 @@
+<link type="text/css" rel="stylesheet" media="all" href="/assets/pages/devise.css?body=1">
+<h2 class="page-title">Забули пароль?</h2>
+<div class="devise-form" style="width:500px;margin-left:auto;margin-right:auto;">
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="form-field">
+  <%= f.email_field :email, :autofocus => true %><br/><%= f.label :email %></div>
+
+  <div class="form-field submit-field"><%= f.submit "Отримати лист" %></div>
+<% end %>
+
+<div class="shared-links">
+<%= render "devise/shared/links" %>
+</div>
+</div>

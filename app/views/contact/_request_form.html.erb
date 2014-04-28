@@ -1,0 +1,168 @@
+
+<div id="request-form">
+  <style>
+  
+
+
+
+div.thanks{
+  display: none;
+}
+
+.jquery_form_error_message {
+    margin: 5px 0 20px;
+    padding: 10px;
+    background: pink;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+
+    float: left;
+    margin-left: 5px;
+}
+
+.error {
+    background: pink;
+}
+
+span.chars_left,
+span.jquery_form_error_message {
+    background: #f2f2f2;
+    padding: 0 2px;
+    font-weight: normal;
+    font-size: 90%;
+    color: #666;
+}
+
+span.jquery_form_error_message {
+    color: red;
+    display: block;
+    background: none;
+    margin: 0;
+    padding: 0;
+}
+
+em {
+    background: lightyellow;
+    font-size: 90%;
+    color: #81815c;
+    padding: 0 1px;
+}
+
+.jquery_form_help {
+    color:#999;
+    font-family: Georgia, "Times New Roman", serif;
+    margin-left: 4px;
+}
+
+.fancybox-lock{
+  overflow: hidden !important;
+}
+  </style>
+  
+  <script type="text/javascript" src="/assets/jquery.formvalidator.min.js?upd=1.5.1"></script>
+	<%= form_for @order, :url => order_path(@order), :html => {:method => :post} do |f| %>
+  <div class="form-field form-title">
+    <h2>Форма зворотнього зв'язку:</h2>
+  </div>
+  <div id="left-group">
+  <div class="form-field first form-field-name">
+    <%= content_tag :span, '', :class => 'field-bg' %>
+    <%= f.text_field :name, :placeholder => 'Оприско Ярослав', :data => { :validation => 'validate_min_length length4', 'validation-help' => ' ', 'validation-error-msg' => 'Введіть, будь ласка, Ваше ім\'я!' } %>
+    <%= f.label 'ім\'я' %>
+  </div>
+  <div class="form-field first form-field-phone">
+    <%= content_tag :span, '', :class => 'field-bg' %>
+    <div>
+      <%= f.text_field :phone, :placeholder => '+38 (067) 341-69-09', :data => { :validation => 'validate_phone', 'validation-help' => ' ', 'validation-error-msg' => 'Введіть, будь ласка, Ваш номер телефону!' } %>
+      <%= f.label 'контактний телефон' %>
+    </div>
+  </div>
+  <div class="form-field first form-field-email" style="" >
+    <%= content_tag :span, '', :class => 'field-bg' %>
+    <div>
+    <%= f.text_field :email, :placeholder => 'oprusko@meta.ua', :style => '', :data => { :validation => 'validate_email', 'validation-help' => ' ', 'validation-error-msg' => 'Введіть, будь ласка, Вашу поштову скриньку!' } %>
+    <%= f.label 'електронна скринька', :style=> '' %>
+    </div>
+  </div>
+</div>
+<div id="right-group">
+  <div  class="form-area second">
+    <%= content_tag :span, '', :class => 'field-bg' %>
+    <%= f.text_area :message, :placeholder => 'У своїй роботі ми застосовуємо сучасне обладнання та високоякісні матеріали. Прогресивні методи виробництва та висока кваліфікація наших працівників дозволяють добиватися найвищих експлуатаційних характеристик всіх видів продукції підприємства.', :data => { :validation => 'required', 'validation-help' => ' ', 'validation-error-msg' => 'Введіть, будь ласка, Ваше повідомлення!' } %>
+    <%= f.label 'текст вашого повідомлення' %>
+  </div>
+</div>
+  <div class="thanks">
+    <h2>Надсилається лист...</h2>
+  </div>
+  <div class="submit-field">
+    <%= f.submit 'надіслати' %>
+  </div>
+</div><!-- What for ? -->
+
+<div class="clearfix"></div>
+<% end %>
+
+<script>
+            var validationSettings = {
+                errorMessagePosition : 'element',
+                borderColorOnError : ''
+            };
+
+            $('div#request-form>form')
+                .submit(function(e) {
+                  e.preventDefault();
+                    if ($(this).validate(false, validationSettings)){
+                        //alert('Valid!');
+                         //$("#new_order").submit();
+                         var $thanks = $('div.thanks');
+                         var thanks_html = $thanks.html();
+                        $.fancybox({
+                          'content' : $thanks,
+                          scrolling:'no',
+                          //padding: 0,
+                          helpers: {
+                            overlay: {
+                              locked: false
+                            }
+                          }
+
+                        });
+                        
+
+
+                          var $form = $('form#new_order');
+                          var url = $form.attr('action');
+                          var data = $form.serializeArray();
+                          data[data.length] = {name:'mode',value:'ajax'};
+                          public_data =data;
+
+
+                          var posting = $.post( url, data );
+                          // Put the results in a div
+                          posting.done(function( data ) {
+                            $thanks.html(data);
+
+                            $form.find('*[name*=order]').val('');
+
+                            setTimeout(function(){
+                              $.fancybox.close();
+                            },2000);
+                          });
+
+
+                        //$.fancybox({'content':$('div')})
+
+                        //var $thanks= $('div.thanks');
+                        //$thanks.fancybox({
+                          //'onComplete' : function(){$('.closer').click(function(){parent.$.fancybox.close();})}
+                        //});
+                       
+
+                      //return true;
+                    }
+                  //return false;
+
+                }).validateOnBlur(false, validationSettings).showHelpOnFocus();
+            </script>
+</div>

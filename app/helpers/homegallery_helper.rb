@@ -1,0 +1,2 @@
+module HomegalleryHelper
+end

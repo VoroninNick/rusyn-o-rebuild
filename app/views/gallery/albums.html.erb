@@ -1,0 +1,27 @@
+
+<%= render :partial => 'gallery/gallery_template' %>
+	
+	<div id="albums-container" class="gallery-container albums-container">
+		
+		<% @albums.each do |album| %>
+          <% if album.images.count > 0 %>
+            <div class="album">
+                <div class="image-container" style="background-image:url(<%= album.images.first.image.url(:items) %>)">
+                    <a href="<%= '/gallery/albums/'+album.url %>">
+                        <figure style="background-image: url(<%= album.images.first.image.url(:items) %>);">
+                        </figure>
+                    </a>
+                </div>
+                    <div class="album-description">
+                        <h5 class="album-title"><a href="<%= '/gallery/albums/'+album.url %>"><%= album.name %></a></h5>
+                        <p class="images-count"><%= album.images.count %> фотографій</p>
+                    </div>
+            </div>
+          <% end %>
+		<% end %>
+		
+		<div class="clearfix"></div>
+	</div>
+	<script type="text/javascript"> 
+		$('.image-container a').fancybox();
+	</script>

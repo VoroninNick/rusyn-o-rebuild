@@ -1,0 +1,153 @@
+<style>
+	.bw-wrapper{
+		position: relative;
+		display: block;
+	}
+	.bw-wrapper .BWfade{
+		z-index: 1;
+	}
+</style>
+<div id="catalog">
+	<% @catalog_categories.each do |category| %>
+						<div class="catalog-item">
+							<div class="image-container">
+								<a href="<%= catalog_path + '/' +category.category_url %>">
+                                  <% if category.category_images.count > 0 %>
+									<img src="<%= category.category_images.first.image.url  %>" alt="<%= category.category_images.first.image_alt %>" />
+                                  <% else %>
+                                    <img src="/assets/rn-main-products-1.png" alt="" />
+                                  <% end %>
+								</a>
+							</div>
+							<div class="description-container">
+								<h2 class="title"><a href="<%= catalog_path + '/' +category.category_url %>"><%= category.name %></a></h2>
+								<p><%= raw category.description %></p>
+							</div>
+						</div>
+
+<% end %>
+						<div class="catalog-item download-catalog">
+							<div class="image-container">
+								<a href="<%= @catalog_pdf.data.url %>">
+									<img src="/assets/index/download-catalog-pdf.png" alt="Завантажити каталог" />
+								</a>
+							</div>
+							<div class="description-container">
+								<h3 class="title"><a href="<%= @catalog_pdf.data.url %>">Завантажити каталог</a></h3>
+								<p>|.pdf <%= ( @catalog_pdf.data_file_size/1000000 ) %>Мбайт|</p>
+							</div>
+						</div>
+
+						<div class="catalog-item download-price">
+							<div class="image-container">
+								<a href="<%= @catalog_price.data.url %>">
+									<img src="/assets/index/download-catalog-pdf.png" alt="Завантажити прайс-лист" />
+								</a>
+							</div>
+							<div class="description-container">
+								<h3 class="title"><a href="<%= @catalog_price.data.url %>">Завантажити прайс-лист</a></h3>
+								<p>|.pdf <%= ( @catalog_price.data_file_size/1000000 ) %>Мбайт|</p>
+							</div>
+						</div>
+
+						<div class="clearfix"></div>
+					</div>
+
+					<div id="about">
+                      <%= raw @about_content %>
+					</div>
+
+					<div id="gallery">
+						<%= render :partial => 'home/home_gallery' %>
+						<div class="clearfix"></div>
+						<hr/>
+						<div class="clearfix"></div>
+					</div>
+
+					
+
+					<div id="publications">
+						<h3 class="title"><%= link_to 'Останні публікації', article_main_path %></h3>
+
+						<ul>
+							<% @new_articles.each do |a| %>
+							<li>
+								<div class="image-container">
+									<a class="bw-wrapper"  href="<%= publication_item_path(a.article_url) %>" style="">
+<%= image_tag( a.article_image.url(:bw_thumb), alt: a.article_image_alt, :onmouseover => "this.src='#{a.article_image.url(:thumb)}'", :onmouseout => "this.src='#{a.article_image.url(:bw_thumb)}'") %>
+									</a>
+								</div>
+								<div class="description-container">
+									<h4 class="title">
+										<a href="<%= publication_item_path(a.article_url) %>">
+											<%= a.article_title %>
+										</a>
+									</h4>
+									<p class="description">
+										<%= a.article_short_description %>
+									</p>
+								</div>
+							</li>
+							<% end %>
+						</ul>
+
+						<div class="clearfix"></div>
+					</div>
+
+<script type="text/javascript">
+/* home-publications */
+/*$(window).load(function(){
+
+
+	$('.bw-wrapper').BlackAndWhite({
+		hoverEffect:true,
+		webworkerPath: '/assets/',
+		onImageReady:function(img){
+			$(img).parent().parent().animate({
+				opacity:1
+			});
+		}
+	});
+});*/
+$('#publications .image-container a').each(function(){
+	var $link = $(this);
+ 	$bw_image = $link.find('img');// grayscale
+ 	var $colored_image = $bw_image.clone();
+ 	var bw_src = $colored_image.attr('src');
+ 	var colored_src = bw_src.replace('/bw_thumb/','/thumb/');
+ 	$colored_image.addClass('colored');
+ 	$colored_image.attr('src',colored_src);
+ 	$colored_image.css({'z-index':100,'position':'absolute','opacity':0});
+
+	//$link.prepend($colored_image);
+});
+$('#publications .image-container a').mouseout(function(){
+	//var $link = $(this);
+ 	//$bw_image = $link.find('img');// grayscale
+ 	//var $colored_image = $bw_image.clone();
+ 	//var bw_src = $colored_image.attr('src');
+ 	//var colored_src = bw_src.replace('/bw_thumb/','/original/');
+ 	//$colored_image.attr('src',colored_src);
+ 	//$colored_image.css('z-index',100);
+	//$link.prepend($colored_image);
+	var $link = $(this);
+ 	var $colored_image = $link.find('.colored');
+ 	$colored_image.stop().animate({'opacity':0});
+});
+
+$('#publications .image-container a').mouseover(function(){
+	//var $link = $(this);
+ 	//$bw_image = $link.find('img');// grayscale
+ 	//var $colored_image = $bw_image.clone();
+ 	//var bw_src = $colored_image.attr('src');
+ 	//var colored_src = bw_src.replace('/bw_thumb/','/original/');
+ 	//$colored_image.attr('src',colored_src);
+ 	//$colored_image.css('z-index',100);
+	//$link.prepend($colored_image);
+	var $link = $(this);
+ 	var $colored_image = $link.find('.colored');
+ 	$colored_image.stop().animate({'opacity':1});
+});
+
+/* /home-publications */
+</script>

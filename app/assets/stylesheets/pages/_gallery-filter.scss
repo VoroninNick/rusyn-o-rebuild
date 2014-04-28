@@ -1,0 +1,150 @@
+#filter{
+		@include init-grid();
+		@include grid(3);
+		width: 251px;
+		z-index: 1;
+
+		// pasha's edit
+		z-index: auto;
+		width: 19.46%;
+
+		min-height: 1px;/* for fixed indent when filter tag list is empty */ 
+		//min-width: 251px;
+
+		@media(max-width:1100px){
+			width:23%;
+
+		}
+
+		@media(max-width:750px){
+			@include grid(12); 
+		}
+
+		input[type="checkbox"] {
+    		display:none;
+		}
+		input[type="checkbox"] + label span {
+    		display:inline-block;
+    		//width:19px;
+    		//height:19px;
+    		margin:-1px 4px 0 0;
+    		vertical-align:middle;
+    		//background:url(/assets/check_radio_sheet.png) left top no-repeat;
+    		cursor:pointer;
+    		padding-left:10px;
+
+    		&:before{
+    			//content: "&nbsp;";
+				//width: 19px;
+				//height: 19px;
+				//overflow: hidden;
+				//background:url(/assets/check_radio_sheet.png) left top no-repeat;
+    		}
+		}
+		span#checkbox-img{
+			width:26px;
+			height: 26px;
+			vertical-align: middle;
+			display:inline-block;
+			cursor:pointer;
+			background:url(/assets/check_radio_sheet.png) left top no-repeat;
+		}
+		ul#categories>li.tag-group{
+			margin-top: 20px;
+			margin-bottom: 40px;
+
+			&:first-child{
+				margin-top: 0;
+			}
+			&~li.tag-group{
+				margin-top: 0px;
+			}
+
+			.tag-category-title{
+				color: #454545;
+				font-weight: 300;
+                font-size: 1rem;
+                line-height: 1.5;
+			}
+			
+		}
+		span#label-text{
+				color:$red_color;
+				font-weight: 300;
+		}
+		input[type="checkbox"]:checked + label span#checkbox-img {
+    		background:url(/assets/check_radio_sheet.png) -23px top no-repeat;
+		}
+
+		ul{
+			li{
+				float: none;
+				clear: left;
+				display: block;
+				margin-top: 10px;
+
+				&:first-child{
+					margin-top: 0;
+				}
+
+			
+				@media(max-width:750px){
+					float: left;
+					clear: none;
+					//width: 48%;
+					width: auto;
+					margin-right: 2%;
+					ul{
+						li{
+							float: left;
+							clear: left;
+						}
+					}
+				}
+			}
+		}
+	}
+
+#view{
+  width: 100%;
+  float: left;
+  margin-bottom: 15px;
+
+
+	
+  ul{
+    margin-left: 282px;
+	
+    li{
+      float: left;
+      padding-left:15px;
+      padding-right:15px;
+
+      border-left: 1px #fec52d solid;
+
+      &:first-child{
+        border-left:none;
+        padding-left: 0;
+      }
+      a{
+
+      }
+
+      span{
+        color: #838383;
+      }
+    }
+  }
+
+  @media(max-width:1100px){
+  	ul{
+  		margin-left: 23% + 2*2.36%;
+  	}
+  }
+
+  @media(max-width:750px){
+  	ul{
+  		margin-left: 2.36%;
+  	}
+  }
+}

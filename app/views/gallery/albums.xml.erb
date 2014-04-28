@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<root>
+	<tag-groups>
+		<% @sidebar_allowed_tag_categories.each_with_index do |tag_category| %>
+			<li class="<% if tag_category[:tags].count > 0 %> tag-group <% else %> tag <% end %>">
+				<% if tag_category[:tags].count > 0 %>
+					<h5><%= tag_category[:name] %></h5>
+				  <ul>
+						<% tag_category[:tags].each_with_index do |tag,index| %>
+						<li><input id="<%= tag[:slug] %>" name="filter[<%= tag[:slug] %>]" type="checkbox"/><label for="<%= tag[:slug] %>"><span id="checkbox-img"></span><span id="label-text"><%= tag[:name] %></span></label> </li>
+						<% end %>
+					</ul>
+
+				<% end %>	
+			</li>
+			<% end %>
+	</tag-groups>
+	<% @albums.each do |album| %>
+	  <% if album.images.count > 0 %>
+	    <album src="<%= album.images.first.image.url(:items) %>" href="<%= '/gallery/albums/'+album.url %>" title="<%= album.name %>" images-count="<%= album.images.count %> <% if album.images.count % 10 == 0 || album.images.count % 10 >= 5 %>фотографій<% elsif album.images.count == 1 %>фотографія<% elsif album.images.count >=2 %>фотографії <% end %>">
+	    </album>
+	  <% end %>
+	<% end %>
+</root>

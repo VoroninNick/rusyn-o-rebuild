@@ -1,0 +1,958 @@
+<div style="display: none" id="allowed_tags"><%= @sidebar_allowed_tag_categories.inspect %></div>
+<div id="filter">
+	<div id="query_string" style="display: none" ><%= @query_string %></div>
+	<form action="" method="get">
+		<ul id="categories">
+			<% @sidebar_allowed_tag_categories.each_with_index do |tag_category| %>
+			<li class="<% if tag_category[:tags].count > 0 %> tag-group <% else %> tag <% end %>">
+				<% if tag_category[:tags].count > 0 %>
+					<h2 class="tag-category-title"><%= tag_category[:name] %></h2>
+				  <ul>
+						<% tag_category[:tags].each_with_index do |tag,index| %>
+						<li><input id="<%= tag[:slug] %>" name="filter[<%= tag[:slug] %>]" type="checkbox"/><label for="<%= tag[:slug] %>"><span id="checkbox-img"></span><span id="label-text"><%= tag[:name] %></span></label> </li>
+						<% end %>
+					</ul>
+
+				<% end %>	
+			</li>
+			<% end %>
+		</ul>
+
+		<input type="submit" value="filter"/>
+	</form>
+	</div>
+
+	<script type="text/javascript">
+	jQuery('#filter form input:submit').hide();
+	jQuery(document).ready(function(){
+
+		var container = $('.gallery-container.images-container')
+		var album_url = container.attr('data-album-url')
+		//console.log(album_url)
+	
+		function clearFilter(){
+			$('#filter input:checkbox').removeAttr('checked');
+		}
+
+
+		function detectState(e){
+			//console.log('detectState log begin');
+			//console.log(e);
+			//console.log('detectState log end');
+
+			if(e.state){
+				if(e.state.label == 'album'){
+					displayAlbum(e.state.url);
+				}
+				else if(e.state.label == 'albums'){
+					if(!e.state.filter){
+						changeViewToAlbums();
+					}
+				}
+				else if(e.state.label == 'images'){
+					if(!e.state.filter){
+						changeViewToImages();
+					}
+				}
+			}
+		}
+
+		window.addEventListener("popstate", detectState);
+
+
+		function runLightImages(){
+			$(window).scroll(function(){
+				//var $image = $(this);
+				//var image_top = $image.offset().top;
+				//var scrollTop = $(window).scrollTop();
+				//var window_height = window.innerHeight;
+				var $gallery_container = $('.gallery-container');
+				var $items = false;
+				if($gallery_container.hasClass('images-container')){
+					$items = $gallery_container.find('.image');
+				}
+				else if($gallery_container.hasClass('albums-container')){
+					$items = $gallery_container.find('.album');
+				}
+				if($items){
+					$items.each(function(){
+						var $image = $(this);
+						var image_top = $image.offset().top;
+						var scrollTop = $(window).scrollTop();
+						var window_height = window.innerHeight;
+						
+						if(image_top < scrollTop + window_height && $image.css('opacity') < 1 ){
+							//console.log('make opacity');
+							$image.animate({'opacity':1},1600);
+						}
+					});
+					
+				}
+			});
+		}
+
+		runLightImages();
+		var timeout_id = 0;
+
+		addScrollImages();
+
+		function initCheckboxes(){
+			var $checkboxes = $('#filter form input:checkbox');
+			$checkboxes.click(function(){
+			if(timeout_id != 0)
+				clearTimeout(timeout_id);
+			timeout_id = setTimeout(function(){
+				var $form = $('#filter form');
+				var url ='/gallery';
+				var filter_for = 'images';
+
+				if($('.page-content').hasClass('images') && !$('.page-content').hasClass('album')){
+					url+='/images';
+					filter_for = 'images';
+				}
+				else if($('.page-content').hasClass('albums')){
+					url+='/albums';
+					filter_for = 'albums';
+				}
+
+				else if($('.page-content').hasClass('album')  ){
+					//arr = $('.page-content').attr('url');
+					//var album_url = arr[arr.length - 1] ;
+					//var $page_content = $('.page-content');
+					//console.log('album_url: '+album_url)
+					//console.log($page_content)
+					//console.log('album')
+
+
+					
+					url+='/albums/'+album_url;
+					filter_for = 'album';
+				}
+				
+
+				console.log('filter_for: '+filter_for)
+
+				url += '.xml?' + $form.serialize();
+				displayOverlay();
+				full_url = url;
+				//console.log('full_url: '+full_url)
+				$.ajax({
+					type:'GET',
+					url: full_url,
+					dataType:'xml',
+					error: function(){
+						//alert('fail');
+						hideOverlay();
+						//console.error('get xml error');
+					},
+					success: function(data,status,xhr){
+						//alert('success');
+						var $data = $(data);
+						if(filter_for == 'images' )
+							displayImages($data);
+						else if(filter_for == 'albums'){
+							displayAlbums($data);
+
+							activateAlbumLinks();
+						}
+						else if (filter_for == 'album'){
+							displayImages($data);
+						}
+
+						hideOverlay();
+					}
+				});
+			},2000)
+		});
+		}
+
+		initCheckboxes();
+	function activateLink(a,click_event_handler,params){
+		var func = click_event_handler;
+
+		$(a).each(function(){
+			var $target = $(this);
+			if(!$target.data('linkActivated')){
+				$target.data('linkActivated',true);
+				$target.click(function(event){
+					var $link = $(this);
+					event.preventDefault();
+					func.call($link,params);
+				});
+			}
+		});
+	}
+
+	function displayImages($data){
+		$data_images = $('image',$data);
+		var $gallery_container = $('.gallery-container');
+		if($gallery_container.length > 0){
+			//var $gallery_container = $('.gallery-container.albums-container');
+			$gallery_container.attr('id','images-container');
+			$gallery_container.addClass('images-container');
+			$gallery_container.removeClass('albums-container');
+			//$gallery_container.children().remove();
+			//$gallery_container = $albums_container;
+			$gallery_container.children().each(function(){
+				var $item = $(this);
+				if($item.attr('id') != 'page_overlay'){
+					$item.remove();
+				}
+			});
+
+			//console.log('current_items_count:'+$gallery_container.children().length);
+
+			var $page_content = $('div.page-content.gallery');
+			if($page_content.hasClass('albums')){
+				$page_content.removeClass('albums');
+			}
+			if($page_content.hasClass('album')){
+				$page_content.removeClass('album');
+			}
+			$page_content.addClass('images');
+		}
+		else{
+			
+		}
+		$gallery_container.removeClass('albums-container');
+		$gallery_container.attr('id','images-container');
+		$gallery_container.addClass('images-container');
+		$data_images.each(function(){
+			$data_image = $(this);
+			$gallery_container.append('<div class="image"><div class="image-container"><a rel="images" class="fb" href="'+$data_image.attr('href')+'"><img src="'+$data_image.attr('src')+'"></a></div></div>');	
+			$('a.fb').fancybox();
+			url=location.pathname+'?'+$('#filter form').serialize();
+			//window.history.pushState({url:full_url,label:'images'}, '', url);
+					
+		});
+
+		addScrollImages();
+	}
+
+	function addImages($data){
+
+		$data_images = $('image',$data);
+		if($('#images-container .image').length < total && total != 0 && total != -1){
+		var $gallery_container = $('.gallery-container');
+		if($gallery_container.length > 0 ){
+			//var $galle_container = $('#albums-container');
+			$gallery_container.attr('id','images-container');
+			
+			//gallery rm
+			
+
+			//$gallery_container = $albums_container;
+		}
+		else{
+			//$images_container.children().remove();
+		}
+		$data_images.each(function(index,image){
+			//console.log('text');
+			$data_image = $(this);
+
+			var $html_image = $('<div class="image"><div class="image-container"><a rel="images" class="fb" href="'+$data_image.attr('href')+'"><img src="'+$data_image.attr('src')+'"></a></div></div>');
+
+			if(index+1 > $data_images.length -8 ){
+				$html_image.css('opacity',0.5);
+			}
+			if($('#images-container #images-loading-progress').length ==0 ){
+				$gallery_container.append($html_image);
+
+				lightImages($html_image);
+
+			}	
+			else{
+				$html_image.insertBefore($('#images-container #images-loading-progress'));
+				$lightImages($html_image);
+			}
+			$('a.fb').fancybox();
+			url=location.pathname+'?'+$('#filter form').serialize();
+			//window.history.pushState({url:full_url,label:'images'}, '', url);
+					
+		});
+	}
+}
+
+function lightImages($images){
+	$images = $($images);
+	//console.log('lightImages:'+$images.length);
+	$images.each(function(){
+		var $image = $(this);
+		var image_top = $image.offset().top;
+		var scrollTop = $(window).scrollTop();
+		var window_height = window.innerHeight;
+		if(image_top > scrollTop + window_height ){
+			$image.css('opacity',0.1);
+
+			
+		}
+	});
+}
+
+
+
+function addAlbums($xml){
+		var $gallery_container = $('.gallery-container');
+		if($gallery_container.length > 0){
+			//var $images_container = $('#images-container');
+			$gallery_container.attr('id','albums-container');
+			$gallery_container.children().each(function(){
+				var $item = $(this);
+				if($item.attr('id') != 'page_overlay'){
+					$item.remove();
+				}
+			});
+			$gallery_container.addClass('albums-container');
+			$gallery_container.removeClass('images-container');
+
+			//$gallery_container = $images_container;
+		}
+		else{
+			//$albums_container.children().remove();
+		}
+
+		var $xml_albums = $xml.find('album');
+		if($xml_albums.length>0){
+			//albums_container.
+			$xml_albums.each(function(){
+				var $xml_album = $(this);
+				var $album = $('<div class="album"><div class="image-container" style="background-image:url('+$xml_album.attr('src')+')"><a href="'+$xml_album.attr('href')+'"><figure style="background-image:url('+$xml_album.attr('src')+')"></figure></a></div><div class="album-description"><h5 class="album-title"><a href="'+$xml_album.attr('href')+'">'+$xml_album.attr('title')+'</a></h5><p class="images-count">'+$xml_album.attr('images-count')+'</p></div></div>');
+				lightImages($album);
+				//var $gallery_container = $('.gallery-container');
+				/*$album.find('a').click(function(event){
+					//$gallery_container.
+					var $link = $(this);
+					console.log($link.href);
+					event.preventDefault();
+				});*/
+				
+				$gallery_container.append($album);
+			});
+
+			activateAlbumLinks();
+		}
+	}
+
+	function displayAlbums($xml){
+		//var $gallery_container = $('.gallery-container');
+			//var $gallery_container = $('.gallery-container.images-container');
+		/*if($gallery_container.hasClass('images-container')){
+			$gallery_container.attr('id','albums-container');
+			$gallery_container.removeClass('images-container');
+			$gallery_container.addClass('albums-container');
+			$gallery_container.children().remove();	
+		}
+		else{
+			$gallery_container.children().remove();
+		}*/
+
+		//$gallery_container.attr('id','albums-container');
+			//albums_container.
+			//$xml.find('album').each(function(){
+				//var $xml_album = $(this);
+				//var $album = $('<div class="album"><div class="image-container"><a href="'+$xml_album.attr('href')+'"><img src="'+$xml_album.attr('src')+'" /></a></div><div class="album-description"><h5 class="album-title"><a href="'+$xml_album.attr('href')+'">'+$xml_album.attr('title')+'</a></h5><p class="images-count">'+$xml_album.attr('images-count')+'</p></div></div>');
+
+
+
+				//$gallery_container.append($album);
+			//});
+
+		addAlbums($xml);
+	}
+
+	function displayOverlay(){
+		var $gallery_container = $('.gallery-container');
+		var $overlay = $('div#page_overlay');
+		//console.error('displayOverlay: exist:'+$overlay.length);
+		var init = false;
+		if($overlay.length == 0){
+			init = true;
+			$overlay = $('<div id="page_overlay"></div>');
+		}
+
+		var page_overlay_image_src = '/assets/ajax_loader_gray_128.gif';
+
+		if(init){
+			$overlay.css({
+				width:$('h2.page-title').width() - $('#filter').width(),
+				//height:$('.page-content.gallery').height() + $('.page-content.gallery').offset().top - $('.gallery-container').offset().top + 'px',
+				height:$('.gallery-container').height() ,
+				'min-height':window.innerHeight - $gallery_container.offset().top, 
+				position:'absolute',
+				top:0,
+				left: 0/*$('#filter').width()*/,
+				background:'rgba(255,255,255,0.7)',
+				display: 'none',
+				'z-index':100000
+			});
+			//var $window_height = $('<');
+			$image_wrapper = $('<div id="image-container"></div>');
+			$image_wrapper.css({	
+				'width':'256px',
+				height:'256px',
+				'margin-top':'-128px',
+				//'margin-left':'-128px',
+				padding:'64px',
+				position:'relative',
+				'margin-left':'auto',
+				'margin-right':'auto',
+				//background:'lightgray',
+				borderRadius:'32px',
+				top:'50%'
+			});
+
+			$image = $('<img src="'+page_overlay_image_src+'" />');
+			$image.css({
+				'top':'50%',
+				'left':'50%',
+				'margin-left':' -64px',
+				'margin-top':'-64px',
+				position:'relative',
+				width:'128px',
+				height:'128px'
+			});
+			$image.appendTo($image_wrapper);
+			$image_wrapper.appendTo($overlay);
+			$overlay.prependTo($('.gallery-container'));
+		}
+
+		$overlay.css({
+			width:$('h2.page-title').width() - $('#filter').width(),
+			height:$('.gallery-container').height() ,
+			'min-height':window.innerHeight - $gallery_container.offset().top
+		});
+
+
+		
+		//console.warn('displayOverlay: before_fadeIn: exist:'+$overlay.length);
+		$overlay.fadeIn();
+		//console.warn('displayOverlay: after_fadeIn: exist:'+$overlay.length);
+
+	}
+
+	function hideOverlay(){
+		//console.error('timeout hideoverlay');
+		//setTimeout(function(){
+			//console.error('hideOverlay');
+			$('div#page_overlay').fadeOut();
+		//},1000);
+	}
+	total = -1;
+	requested_count = $('#images-container .image').length;
+	if($('.image.end-image').length>0)
+		total = $('.image').length;
+	loading = 0;
+	//console.log('init:function loadImages: total: '+total+';loading:'+loading+'; requested_count: '+requested_count);
+
+	var existScrollImages = false;
+	var scroll_loader_image_src = '/assets/ajax_loader_gray_48.gif';
+	function addScrollImages(){
+		if(!existScrollImages){
+			existScrollImages = true;
+			//console.warn('addScrollImages execute');
+			$(window).scroll(function(){
+				if($('.gallery-container').hasClass('images-container')){
+					var images_per_row = 4;
+					var window_scrolltop = $(window).scrollTop();
+					var container_top = $('.gallery-container.images-container').offset().top;
+					var last_image_top = $('.gallery-container.images-container .image:last').offset().top;
+					var last_image_height = $('.gallery-container.images-container .image:last').height();
+
+
+
+					//console.log('test. scrollTop: '+window_scrolltop + '; image:last.offset.top: '+ ( last_image_top - container_top ) );
+					if( window_scrolltop > last_image_top - container_top - last_image_height*8  ){
+						if(total > requested_count || total==-1 ){ 
+							if($('.gallery-container.images-container #images-loading-progress').length == 0){
+								$('.gallery-container.images-container').append('<div id="images-loading-progress" style="width:100%;width:100%;height:48px;"><img src="'+scroll_loader_image_src+'" style="width:48px;height:48px;position:relative;margin-left:40%;" /></div>');
+								loading++;
+							}
+							loadImages($('.gallery-container.images-container .image').length + 1,8,addImages);
+						}
+					}
+				}//
+			});
+		}
+	}
+	var existScrollAlbums = false;
+	function addScrollAlbums(){
+		if(!existScrollAlbums){
+			existScrollAlbums = true;
+			//console.warn('addScrollAlbums');
+			$(window).scroll(function(){
+				var $gallery_container = $('.gallery-container');
+				if($gallery_container.hasClass('albums-container')){
+					var window_scrolltop = $(window).scrollTop();
+					var container_top = $('.gallery-container.albums-container').offset().top;
+					var last_image_top = $('.gallery-container.albums-container .album:last').offset().top;
+					var last_image_height = $('.gallery-container.albums-container .album:last').height();
+					//console.log('test. scrollTop: '+window_scrolltop + '; image:last.offset.top: '+ ( last_image_top - container_top ) );
+					if( window_scrolltop > last_image_top - container_top - last_image_height  ){
+						if(total > requested_count || total==-1 ){ 
+							loadAlbums($('.gallery-container.albums-container .album').length + 1,8,addAlbums);
+						}
+					}
+				}
+			});
+		}
+	}
+
+	function loadImages(start,count, complete_handler){
+
+		//console.log('function loadImages: total: '+total+';count:'+count+'; requested_count: '+requested_count);
+		if(total > requested_count || total == -1){
+			total = 0;
+		requested_count+= count;
+		var $form = $('#filter form');
+		var url = $('.page-content.gallery').hasClass('images')? '/gallery/images' : '/gallery/albums' ;
+		var query = $form.serialize();
+		if(query.length > 0)
+			query += '&';
+		query += 'start=' + start + '&count='+count ;
+
+		//console.log('query: '+query);
+		//console.log('url: '+url);
+		//u
+		//alert(url);
+		//alert();
+
+		var full_url = url + '.xml?' + query;
+		$.ajax({
+			type: 'GET',
+			url: full_url,
+			dataType: 'xml',
+			error: function(){
+				//console.error('get xml error');
+			},
+			success: function(data,status,xhr){
+				loading--;
+				if(loading==0){
+					$('.gallery-container.images-container #images-loading-progress').remove();
+				}
+				var $data = $(data);
+				if(total == 0){
+					total = parseInt($data.find('info total').text());
+				}
+				
+				complete_handler.call(null,$(data));
+			},
+			complete: function(data){
+				
+			}
+		});
+		}
+	}
+
+		function loadAlbums(start,count, complete_handler){
+		//console.log('function loadAlbums: total: '+total+';count:'+count+'; requested_count: '+requested_count);
+		if(total > requested_count || total == -1){
+			total = 0;
+		requested_count+= count;
+		var $form = $('#filter form');
+		var url = $('.page-content.gallery').hasClass('images')? '/gallery/images' : '/gallery/albums' ;
+		var query = $form.serialize();
+		if(query.length > 0)
+			query += '&';
+		query += 'start=' + start + '&count='+count ;
+
+		//console.log('query: '+query);
+		//console.log('url: '+url);
+		//u
+		//alert(url);
+		//alert();
+
+		var full_url = url + '.xml?' + query;
+		$.ajax({
+			type: 'GET',
+			url: full_url,
+			dataType: 'xml',
+			error: function(){
+				//console.error('get xml error');
+			},
+			success: function(data,status,xhr){
+				var $data = $(data);
+				if(total == 0){
+					total = parseInt($data.find('info total').text());
+				}
+				
+				complete_handler.call(null,$(data));
+			},
+			complete: function(data){
+				
+			}
+		});
+		}
+	}
+
+		function changeView(params){
+			
+			
+			var $link = $(this);
+			var $li = $($link.parent());
+			if($li.attr('id')=='albums'){
+				changeViewToAlbums();
+
+				var browser_url = '/gallery/albums';
+				//console.warn('albums: pushState: url:'+browser_url);
+				window.history.pushState({url:browser_url,label:'albums',filter:false}, '', browser_url);
+			}
+			else if($li.attr('id')=='images'){
+				changeViewToImages();
+
+				var browser_url = '/gallery/images';
+				//console.warn('albums: pushState: url:'+browser_url);
+				window.history.pushState({url:browser_url,label:'images',filter:false}, '', browser_url);
+			}
+
+		}
+
+		function addTags($data){
+
+					//$('#filter ul#categories').html($data.find('tag-groups').html());
+					//$('#filter ul#categories').html($data.find('tag-groups').contents());
+
+
+					var $ul = $('#filter ul#categories');
+					$ul.children().remove();
+					//var list = $data.find('tag-groups').get(0);
+					//$ul.children().remove();
+					//$ul.append(list.innerHTML);
+					
+
+					var lis = $data.find('li.tag-group');
+					lis.each(function(){
+
+						var $li = $(this);
+						
+						var $new_li = $('<li></li>');
+						$new_li.addClass($li.attr('class'));
+						$new_li.append($li.find('h5'));
+						var $sub_ul = $('<ul></ul>');
+						var $subitems = $li.find('ul li');
+						$subitems.each(function(){
+
+							var $subli = $(this);
+							var $input = $subli.find('input');
+							var input_id = $input.attr('id');
+							var input_name = $input.attr('name');
+							var input_type = $input.attr('type');
+
+							var $label = $subli.find('label');
+							var label_for = $label.attr('for');
+
+							var $span_checkbox_img = $label.find('span:first');
+							var span_chackbox_img_id = $span_checkbox_img.attr('id');
+
+							var $span_label_text = $label.find('span:eq(1)');
+							var span_label_text_id = $span_label_text.attr('id');
+							var span_label_text_text = $span_label_text.text();
+
+							$sub_ul.append('<li><input id="'+input_id+'" name="'+input_name+'" type="'+input_type+'" /><label for="'+label_for+'"><span id="'+span_chackbox_img_id+'"></span><span id="'+span_label_text_id+'">'+span_label_text_text+'</span></label></li>');
+						});
+
+						
+						$new_li.append($sub_ul);
+						$ul.append($new_li);
+					});
+		}
+
+		function changeViewToAlbums(){
+			
+			url = '/gallery/albums';
+			url_array = url.split('/');
+			
+			var $breadcrumbs_ul = $('#breadcrumbs>ul');
+
+			var $view = $('#view');
+
+			displayOverlay();
+			var full_url = url+'.xml';
+			var browser_url = url;
+			$.ajax({
+				type: 'GET',
+				url: full_url,
+				dataType: 'xml',
+				error: function(){
+					hideOverlay();
+					//console.error('get xml error');
+				},
+				success: function(data,status,xhr){
+					//console.log(xhr);
+					var $data = $(data);
+					//console.log('ajax:changeViewToAlbums: success');
+					//console.log($data);
+					//console.log('data end');
+					public_data = $data;
+					//return;
+					clearFilter();
+					//mytags = $data.find('tag-groups');
+					
+					addTags($data);
+
+					//$ul.append(lis);
+					initCheckboxes();
+					//if($($link.parent()).attr('id') == 'albums'){
+						/*var $span = $('<span>'+$link.text()+'</span>');
+						 var $li=$($link.parent());
+						 $link.remove();
+						 $li.append($span);
+
+						 $li = $($view.find('li#images'));
+						 $a = $('<a href="/gallery/images">'+$li.find('span').text()+'</a>');
+						 $li.find('span').remove();
+						 $li.append($a);*/
+
+						 var images_text = $view.find('li#images span').text();
+						 $('<a href="/gallery/images">'+images_text+'</a>').appendTo($view.find('li#images'));
+						 $view.find('li#images span').remove();
+
+						 var albums_text = $view.find('li#albums a').text();
+						 $('<span>'+albums_text+'</span>').appendTo($view.find('li#albums'));
+						 $view.find('li#albums a').remove();
+
+						 for(var i=$breadcrumbs_ul.find('li').length;i>=1;i--){
+						 			$breadcrumbs_ul.find('li:eq('+i+')').remove();
+						 		}
+						 $breadcrumbs_ul.append('<li><span>&nbsp;Галерея</span></li>');
+						 $breadcrumbs_ul.append('<li><span>&nbsp;Альбоми</span></li>');
+						 displayAlbums($data);
+
+						 $('div.page-content').removeClass('images').addClass('albums');
+
+						 addScrollAlbums();
+
+						 activateAlbumLinks();
+						 
+					//}
+
+					activateLink($('#view li a'), changeView);
+
+					hideOverlay();
+				}
+			});
+		}
+
+		function changeViewToImages(){
+			url = '/gallery/images';
+			url_array = url.split('/');
+			
+			var $breadcrumbs_ul = $('#breadcrumbs>ul');
+
+			var $view = $('#view');
+
+			var $breadcrumbs_ul = $('#breadcrumbs>ul');
+
+			displayOverlay();
+			var full_url = url+'.xml';
+			var browser_url = url;
+			$.ajax({
+				type: 'GET',
+				url: full_url,
+				dataType: 'xml',
+				error: function(){
+					hideOverlay();
+					//console.error('get xml error');
+				},
+				success: function(data,status,xhr){
+					//console.log(xhr);
+					var $data = $(data);
+
+					
+					clearFilter();
+					//$('#filter ul#categories').html($data.find('tag-groups').html());
+					//$('#filter ul#categories').html($data.find('tag-groups').contents());
+					addTags($data);
+					initCheckboxes();
+					
+					//if($($link.parent()).attr('id') == 'images'){
+
+						/*var $span = $('<span>'+$link.text()+'</span>');
+						 var $li=$($link.parent());
+						 $link.remove();
+						 $li.append($span);
+
+						 $li = $($view.find('li#images'));
+						 $a = $('<a href="/gallery/images">'+$li.find('span').text()+'</a>');
+						 $li.find('span').remove();
+						 $li.append($a);*/
+
+						 var albums_text = $view.find('li#albums span').text();
+						 $('<a href="/gallery/albums">'+albums_text+'</a>').appendTo($view.find('li#albums'));
+						 $view.find('li#albums span').remove();
+
+						 var images_text = $view.find('li#images a').text();
+						 $('<span>'+images_text+'</span>').appendTo($view.find('li#images'));
+						 $view.find('li#images a').remove();
+
+						 for(var i=$breadcrumbs_ul.find('li').length;i>=1;i--){
+						 			$breadcrumbs_ul.find('li:eq('+i+')').remove();
+						 		}
+						 $breadcrumbs_ul.append('<li><span>&nbsp;Галерея</span></li>');
+						 $breadcrumbs_ul.append('<li><span>&nbsp;Фотографії</span></li>');
+
+						 displayImages($data);
+
+						 $('div.page-content').removeClass('albums').addClass('images');
+						 addScrollImages();
+
+						 AlbumLinksActivated = false;
+
+
+						 //console.warn('images: pushState: url:'+url);
+
+						 //window.history.pushState({url:full_url,label:'images'}, '', browser_url);
+					//}
+
+					activateLink($('#view li a'), changeView);
+
+					hideOverlay();
+				}
+			});
+		}
+
+		function displayAlbum(link_href){
+
+			//console.warn('displayAlbum: link_href:'+link_href);
+			var $breadcrumbs_ul = $('#breadcrumbs>ul');
+								//var $link = $(this);
+								var url = link_href;
+								//console.warn(url);
+								
+								var full_url = url+'.xml';
+								var original_url = url;
+								displayOverlay();
+								$.ajax({
+									url:full_url,
+									type:'GET',
+									success: function(data,status,xhr){
+										var $data = $(data);
+										album_url = url
+										displayImages($data);
+
+										var project_name = $data.find('info album-name').text();
+										album_url = $data.find('info album-url').text();
+
+										for(var i=$breadcrumbs_ul.find('li').length;i>=1;i--){
+						 					$breadcrumbs_ul.find('li:eq('+i+')').remove();
+						 				}
+						 				$breadcrumbs_ul.append('<li><a href="/gallery/images">&nbsp;Галерея</a></li>');
+						 				$breadcrumbs_ul.append('<li><a href="/gallery/albums">&nbsp;Альбоми</a></li>');
+						 				$breadcrumbs_ul.append('<li><span>&nbsp;'+project_name+'</span></li>');
+
+						 				//$('#filter ul#categories').html($data.find('tag-groups').html());
+						 				//$('#filter ul#categories').html($data.find('tag-groups').contents());
+
+						 				addTags($data);
+
+
+						 				$('.page-content.gallery').removeClass('albums').addClass('album');
+
+						 				$('#view>ul>li#albums').html('<a href="/gallery/albums">Альбоми</a>');
+
+						 				activateLink($('#view li#albums a'), changeView);
+
+						 				
+										clearFilter();
+
+										AlbumLinksActivated = false;
+
+										initCheckboxes();
+
+										hideOverlay();	
+
+										//window.history.pushState({url:full_url,label:'album'}, '', url);
+									}
+								})
+
+		}
+		var AlbumLinksActivated = false;
+		function activateAlbumLinks(){
+
+			//if(!AlbumLinksActivated){
+				if($gallery_container.hasClass('albums-container')){
+					//console.warn('activateAlbumLinks: call: '+AlbumLinksActivated);
+					AlbumLinksActivated = true;
+
+					$('.album a').each(function(){
+						var $link = $(this);
+						if(!$link.data('activatedAlbumLink')){
+
+							$link.data('activatedAlbumLink',true);
+							$link.click(function(e){
+								e.preventDefault();
+								var $link = $(this);
+								var link_href = $link.attr('href');
+								displayAlbum(link_href);
+
+								window.history.pushState({url:link_href,label:'album'}, '', link_href);					
+							});
+						}
+					}); 
+					
+				}
+			//}
+		}
+
+		activateLink($('#view li a'), changeView);
+
+		$gallery_container = $('.gallery-container');
+		
+		activateAlbumLinks();
+		var $page_content = $('.page-content.gallery');
+		if($page_content.hasClass('album')){
+			window.history.replaceState({url:window.location.pathname,label:'album'}, '', window.location.pathname);
+		}
+		else if($page_content.hasClass('albums')){
+			window.history.replaceState({url:window.location.pathname,label:'albums'}, '', window.location.pathname);
+		}
+		else if($page_content.hasClass('images')){
+			window.history.replaceState({url:window.location.pathname,label:'images'}, '', window.location.pathname);
+		}
+	
+
+});
+
+
+
+	$(document).ready(function(){
+		/*$(window).scroll(function(){
+			var page_scroll = $(document).scrollTop();
+			var $filter = $('#filter');
+			var filter_top = $('#filter').offset().top;
+			var footer_top = $('#footer-info-wrapper').offset().top;
+			if(page_scroll >= filter_top && page_scroll < footer_top - filter_top){
+				if($filter.hasClass('fixed') == false){
+				$('#filter')
+				  .css({
+					  'height':'300px',
+					  //'width':'250px'
+				  })
+				  .find('#categories').css({
+				  	'position':'fixed',
+				  	'margin-top':'-350px'
+				  });*/
+
+				  /* fix other objects */
+				  	
+				  /* end fix */
+
+			/*	$filter.addClass('fixed');
+				console.log('set fixed');
+				}
+			}
+			else{
+				if($filter.hasClass('fixed')){
+					$('#filter #categories')
+				  	.css({
+				  		'position':'static',
+				  		'margin-top':'0'
+				  	});
+					$filter.removeClass('fixed');
+					console.log('set static');
+				}
+			}
+		});*/
+
+
+	});
+</script>

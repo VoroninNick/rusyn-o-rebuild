@@ -1,0 +1,68 @@
+<div class="page-content catalog-home">
+	<h1 class="page-title"><%= @body_title %></h1>
+
+	<div id="catalog">
+	<% @top_categories.each_with_index do |category,index| %>
+		<div class="catalog-category <% if index%2 == 0 %> right-align <% else %> left-align <% end %>">
+			<div class="image-container">
+				<a href="<%= '/catalog/' + category.category_url %>">
+                  <% if category.category_images.count > 0 %>
+					<img src="<%= category.category_images.first.image.url %>" alt="<%= category.category_images.first.image_alt %>"/>
+                  <% else %>
+                    <img src="/assets/rn-main-products-1.png" alt="" />
+                  <% end %>
+				</a>
+			</div>
+			<div class="category-info">
+				<h2><a href="<%= '/catalog/' + category.category_url %>"><%= category.name %></a></h2>
+				<div class="description" ><%= raw category.description %></div>
+				<% if category.child_categories.count > 0  %>
+				<div class="subcategories">
+					<ul>
+					<% category.child_categories.each do |child_category| %>
+						<li>
+							<a href="<%= '/catalog/' + category.category_url + '#' + child_category.category_url %>">
+							<%= child_category.name %>
+						</a></li>
+					<% end %>
+					</ul>
+				</div>
+				<% end %>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+
+	<% end %>
+		<div class="catalog-category download-catalog">
+							<div class="image-container">
+								<a href="<%= @catalog_pdf.data.url %>">
+									<img src="/assets/index/download-catalog-pdf.png" alt="" />
+								</a>
+							</div>
+							<div class="category-info">
+								<h3><a href="<%= @catalog_pdf.data.url %>">Завантажити каталог</a></h3>
+								<div class="description">
+									<p>|.pdf <%= ( @catalog_pdf.data_file_size/1000000 ) %>Мбайт|</p>
+								</div>
+							</div>
+		</div>
+
+
+        <div class="catalog-category download-catalog">
+          <div class="image-container">
+            <a href="<%= @catalog_price.data.url %>">
+              <img src="/assets/index/download-catalog-pdf.png" alt="" />
+            </a>
+          </div>
+          <div class="category-info">
+            <h3><a href="<%= @catalog_price.data.url %>">Завантажити прайс-лист</a></h3>
+            <div class="description">
+              <p>|.pdf <%= ( @catalog_price.data_file_size/1000000 ) %>Мбайт|</p>
+            </div>
+          </div>
+        </div>
+
+	</div>
+	<div class="clearfix"></div>
+</div>

@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<title>z-index</title>
+
+		<style>
+
+			body{
+				/*background-color:red;*/
+				background-image: url('/assets/rusyn-o-pattern-rubin.gif');
+			}
+
+			div#header{
+				display: block;
+				position: relative;
+				clear:both;
+				width:100%;
+				float: left;
+				margin-left: auto;
+				margin-right: auto;
+				height: auto;
+			}
+
+			div#header div#header-bg{
+				background-image: url('/assets/rusyn-o-pattern-rubin.gif');
+
+				height:85px;
+				width:100%;
+				left:0;
+				position: absolute;
+			}
+
+			div#header div#header-content{
+				position: relative;
+				width: 80%;
+			}
+
+			div#slider-wrapper{
+				width:80%;
+				position: relative;
+				display: block;
+				background-color: lightgray;
+
+				height: 500px;
+				/*float: left;*/
+				clear: both;
+				margin-left: auto;
+				margin-right: auto;
+				box-shadow: 0 0 20px 1em rgba(50,50,50,0.9);
+
+				margin-bottom:2em;
+				margin-top: 2em;
+			}
+
+			div#menu{
+				position: relative;
+				display: block;
+				
+				clear: both;
+				background-color: yellow;
+				height: 82px;
+				width: 80%;
+				margin-left: auto;
+				margin-right: auto;
+
+				margin-bottom:2em;
+				margin-top: 2em;	
+			}
+		</style>
+	</head>
+	<body>
+		<div id="header">
+			<div id="header-bg"></div>
+			<div id="header-content">
+				<div style="height:100%;">hello</div>
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+		<div id="page-bg">	
+			<div id="slider-wrapper"></div>
+		
+		<div id="menu"></div>
+	</body>
+</html>

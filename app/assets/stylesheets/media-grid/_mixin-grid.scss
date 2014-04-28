@@ -1,0 +1,125 @@
+body {
+  min-width: 320px !important;
+  div.container,
+  section.container,
+  article.container{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1330px; 
+  }
+}
+$total_width : 100%;
+$indent : 2.36%;
+@mixin init-grid(){
+  float:left;
+  position: relative;
+  //margin-left: $indent / 2;
+  //margin-right: $indent / 2;
+}
+
+@mixin grid($columns){
+
+
+//$k : 1;
+//$total_width : 100% * $k;
+//$indent : 2% * $k;
+/*$g:   ( ($total_width) - (13 - $columns) * ($indent) ) / 12 * ($columns) + ($columns - 1) * ($indent) * $k;
+
+$g1:  ( ($total_width) - 13*($indent) ) / 12;
+$g2:  ( ($total_width) - 13*($indent) ) / 12 * 2 + 1 * ($indent);
+$g3:  ( ($total_width) - 13*($indent) ) / 12 * 3 + 2 * ($indent);
+$g4:  ( ($total_width) - 13*($indent) ) / 12 * 4 + 3 * ($indent);
+$g5:  ( ($total_width) - 13*($indent) ) / 12 * 5 + 4 * ($indent);
+$g6:  ( ($total_width) - 13*($indent) ) / 12 * 6 + 5 * ($indent);
+$g7:  ( ($total_width) - 13*($indent) ) / 12 * 7 + 6 * ($indent);
+$g8:  ( ($total_width) - 13*($indent) ) / 12 * 8 + 7 * ($indent);
+$g9:  ( ($total_width) - 13*($indent) ) / 12 * 9 + 8 * ($indent);
+$g10:   ( ($total_width) - 13*($indent) ) / 12 * 10 + 9 * ($indent);
+$g11:   ( ($total_width) - 13*($indent) ) / 12 * 11 + 10 * ($indent);
+$g12:   ( ($total_width) - 13*($indent) ) / 12 * 12 + 11 * ($indent);*/
+
+
+//
+$g:  ( ($total_width) - 13*($indent) ) / 12 * $columns + ($columns - 1) * ($indent);
+//
+
+
+  @if $columns greater 0 and $columns less 13{
+
+    $width:0;
+    @if $columns == 1{
+      $width:6.333%;
+    }
+    @if $columns == 2{
+      $width:14.667%;
+    }
+    @if $columns == 3{
+      $width:23.0%;
+    }
+    @if $columns == 4{
+      $width:31.333%;
+    }
+    @if $columns == 5{
+      $width:39.667%;
+    }
+    @if $columns == 6{
+      $width:48.0%;
+    }
+    @if $columns == 7{
+      $width:56.333%;
+    }
+    @if $columns == 8{
+      $width:64.667%;
+    }
+    @if $columns == 9{
+      $width:73.0%;
+    }
+    @if $columns == 10{
+      $width:81.333%;
+    }
+    @if $columns == 11{
+      $width:89.667%;
+    }
+    @if $columns == 12{
+      $width:98.0%;
+    }
+
+    width: $g;
+    @if $columns == 12{
+      margin-left: $indent;
+      margin-right: $indent;
+    }
+    @else{
+      margin-left: $indent;
+      margin-right: 0;
+    }
+  }
+  @else{
+    
+  }
+}
+
+@mixin alpha(){
+  //margin-left: 0%;
+  //margin-right: $indent / 2;
+}
+
+@mixin destroy-alpha(){
+  //margin-left: $indent / 2;
+  //margin-right: $indent / 2;
+}
+
+@mixin omega(){
+  //margin-left: $indent;
+  margin-right: $indent;
+}
+
+@mixin destroy-omega(){
+  //margin-left: $indent;
+  margin-right: 0;
+}
+
+.inline-block-g12{
+  
+}

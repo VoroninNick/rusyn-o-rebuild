@@ -1,0 +1,26 @@
+<link type="text/css" rel="stylesheet" media="all" href="/assets/pages/devise.css?body=1">
+<div class="devise-form" id="login-form">
+<h2 class="page-title">Вхід</h2>
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <div class="form-field">
+  <%= f.email_field :email, :autofocus => true, :placeholder => 'user@server.com', :value => '', :tabindex => '1' %><br/>
+<%= f.label 'електронна пошта' %></div>
+
+  <div class="form-field">
+  <%= f.password_field :password, :placeholder => 'пароль', :value => '', :tabindex => '2' %><br/>
+<%= f.label 'пароль' %></div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="form-field remember_me"><%= f.check_box :remember_me %> <%= f.label :remember_me,"запам'ятати мене" %></div>
+  <% end -%>
+
+  <div class="form-field submit-field"><%= f.submit "Увійти", :tabindex => '3' %></div>
+	
+	<div class="shared-links">
+		<%= render "devise/shared/links" %>
+	</div>
+
+<% end %>
+<div class="clearfix" ></div>
+</div>

@@ -1,0 +1,87 @@
+
+
+
+
+@import "_common-header";
+
+@import "_common-top-nav";
+
+@import "_top-menu";
+
+@import "_footer-info";
+
+@import "_content";
+
+@import "_footer";
+
+
+html{
+  height: 100%;
+}
+body.common-layout{
+	background-image:url(/assets/rusyn-o-pattern-rubin.gif);
+  height: 100%;
+	div#page-bg{
+		background-image:url(/assets/home-bg.jpg);
+		//top: 82px;
+    position:relative;
+
+    min-height: 100%;
+    margin-bottom: -421px;
+    &:after{
+      content: "";
+      display: block;
+      height: 421px;
+    }
+	}
+
+  div#full-footer{
+    width:100%;
+    background-image: url(/assets/rusyn-o-pattern-rubin.gif);
+    position: relative;
+  }
+
+	
+
+
+	 div.page-content {
+        background-color: #ffffff;
+        width: 100%;
+        //margin-top: -24px;
+
+        div#overlay-wrapper{
+          position: absolute; 
+          z-index: 0;
+          padding-right: 40px; 
+          height: 41px;
+          
+
+          @include make-page-width;
+          
+          @media(max-width:1199px){
+            display: none;
+          }
+
+          div#overlay{
+            height: inherit; 
+            background: none repeat scroll 0% 0% white;
+          }
+        }
+
+        .page-title{
+          @include init-grid;
+          @include grid(12);
+          margin-top: 20px;
+          margin-bottom: 36px;
+        }
+      }
+
+  div#content-shadow{
+    //margin-top: -63px;
+  }
+}
+
+
+#page-shadow-wrapper{
+	//margin-top:-49px;
+}

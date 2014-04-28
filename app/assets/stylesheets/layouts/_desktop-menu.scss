@@ -1,0 +1,236 @@
+
+
+@media(min-width:$desktop_menu_screen_width){
+div#menu-holder{
+		height: 132px;
+	}
+  li.dl-back{
+		display: none;
+  }
+
+	ul.dl-menu
+	>li{
+		text-align: center;
+		vertical-align: middle;
+		height:84px;
+		>a, >span {
+				font-weight: 700;
+		  		text-transform: uppercase;
+				height: 84px;
+				display: block;
+				font-size: 20px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 84px;
+		}
+
+		ul.dl-submenu{
+			width:200%;
+			li{
+				height: 84px;
+			a, >span {
+			  	font-weight: 700;
+			  	text-transform: uppercase;
+				height: 84px;
+				display: block;
+				font-size: 19px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 84px;
+
+
+		}
+
+			.two-lines{
+					line-height: 40px;
+				}
+				.one-line{
+					
+				}
+		}
+		}
+	}
+
+
+	.common-layout .menu #menu-shadow-wrapper{
+        height: 99px; 
+        width: 100%;
+         padding: 0px 0px 0px; 
+         position: absolute;
+         z-index: -1;
+         //overflow: hidden;
+
+         #menu-shadow-holder{
+          position: relative;
+          //width: 100%;
+          margin-left: 20px;
+          margin-right: 20px; 
+          height: 99px;
+          overflow: hidden;
+          padding-bottom: 15px; 
+          
+          @media(max-width:1290px){
+              width:100%;
+              margin-left: 0;
+              margin-right: 0;
+          }
+
+          #menu-shadow{
+            box-shadow: 0px 0px 15px 0.5em rgba(50, 50, 50, 0.5);
+            height: 84px;
+            width: 100%;
+            position: relative;
+          }
+         }
+      }
+
+}
+
+
+
+
+
+
+
+
+/* fonts */
+
+
+
+
+@media(min-width:$desktop_menu_screen_width){
+	/*div#menu-holder div#menu-wrapper div#menu div.menu > ul > li{
+		float: none;
+	}
+
+	#menu-holder{
+		background-color: $red_color;
+		#nav{
+			//display: none;
+		}
+	}
+
+	.dl-trigger{
+		display: block;
+	}
+
+
+
+	body.common-layout div#menu-holder{
+		height: 94px;
+
+	}
+
+	body.common-layout div#overlay-wrapper{
+		top: 45px;
+	}
+
+	html body.common-layout #menu .menu #menu-shadow-wrapper{
+		height: 82px;
+	}
+
+	body.common-layout .menu #menu-shadow-wrapper #menu-shadow-holder {
+		height: 60px;
+	}
+
+	body.common-layout .menu #menu-shadow-wrapper #menu-shadow-holder #menu-shadow{
+		height: 45px;
+	}
+
+	body.home-layout div#menu-holder{
+		height: 94px;
+	}
+
+	body.home-layout div#overlay-wrapper{
+		top: 45px;
+	}
+
+	.home-layout div.menu{
+		height: 45px;
+	}
+	.home-layout .menu #menu-shadow-wrapper{
+		height: 82px;
+		display: none;
+	}
+
+	body.home-layout div#menu-holder{
+		height: 45px;
+	}
+
+	.home-layout .menu #menu-shadow-wrapper #menu-shadow-holder {
+		height: 60px;
+	}
+
+	.home-layout .menu #menu-shadow-wrapper #menu-shadow-holder #menu-shadow{
+		height: 45px;
+	}
+
+
+
+	body .dl-menuwrapper .dl-menu{
+		margin-top: 45px;
+
+		max-width: 100%;
+
+		right: 0;
+	}
+
+	span.dropdown-arrow{
+		display: none;
+	}
+
+	html body div.demo-3 .menu #dl-menu > ul > li > ul > li > a{
+	
+	}*/
+
+
+	/* fonts */
+
+	/*
+  div#menu-holder div#menu-wrapper div#menu div.menu div#dl-menu > ul > li ul.dl-submenu li:hover a > span:before {
+	margin-left: 10px;
+	line-height: 60px;
+	padding-top: 0px;
+	content: url("/assets/menu-active-item-label2.png");
+	height: 100%;
+	display: block;
+	width: auto;
+	float: left;
+ 
+		div#menu-holder div#menu-wrapper div#menu div.menu div#dl-menu,
+		.firefox div#menu-holder div#menu-wrapper div#menu div.menu div#dl-menu {
+			ul,ul.dl-submenu{
+		      >li{
+
+				height: 60px;
+			    line-height: 60px;
+			    font-size: 0.97em;
+			    word-break: normal;
+			    >a,>a.pr{
+				  font-size: 0.97em;
+				  word-break: normal;
+				  line-height: 60px;
+				}
+				span{
+					word-break: normal;
+				  height: 60px;
+				  line-height: 60px;
+				  font-weight: 400;
+				}
+				}
+		}
+
+		
+                      &.mobile-one-line{
+                        line-height: 60px;
+                      }
+                      &.mobile-two-lines{
+                        line-height: 60px;
+
+                      }
+                  
+	}
+}*/	
+
+
+}

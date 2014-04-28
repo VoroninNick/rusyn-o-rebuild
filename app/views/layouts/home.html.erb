@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html class="<%= browser.name.downcase %>">
+<head>
+  <meta name="keywords" content="<%= @meta_keywords %>" >
+  <meta name="description" content="<%= @meta_description %>" >
+  <title><%= @head_title %></title>
+  <%= render :partial => 'layouts/home_include' %>
+
+  <!-- javascript_include_tag "ga" -->
+</head>
+
+
+
+<body class="home-layout">
+
+	<div id="secret" style="display: none;">
+		<% if user_signed_in? %>
+			<span id="username"><%= current_user.email %></span>
+		<% end %>
+	</div>
+
+<div id="header-wrapper" class="">
+	<div id="header-bg"></div>
+	<div id="header" class="">
+		<div id="rusin-o">
+          <h1>Бруківка, тротуарна плитка, керамзито-, шлакоблоки від виробника «Русин-О» </h1>
+        </div>
+		<div id="contact-info">
+				<span id="mail"><a class="image-link" href="mailto:service@rusyn-o.com.ua"><img src="/assets/email.png"/></a><a href="mailto:service@rusyn-o.com.ua">info</a></span>
+				<span id="phone"><a class="image-link" href="tel:+38 (067) 341-69-09"><img src="/assets/phone.png"/></a><a href="tel:+38 (067) 341-69-09">+38 (067) 341-69-09</a></span>
+		</div>
+		<div class="clearfix"></div>
+		
+	</div>
+	
+</div>
+<div id="page-bg" style="background-image: url(/assets/bgs/bg-<%= rand(2)+1 %>.jpg);background-size:100%;">
+	
+	
+	
+		<%= render :partial => 'home/home_slider' %>
+	
+	<div id="menu-holder">
+			<div id="menu-wrapper">
+				<%= render :partial => 'layouts/common_top_navigation' %>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	<div id="page-shadow-wrapper">
+		<div id="content-shadow">
+			<div id="shadow">
+				<div id="home-page-content">
+					<div id="overlay-wrapper" style="">
+						<div id="overlay" style=""></div>
+					</div>
+					<%= yield %>
+
+					<div class="clearfix"></div>
+
+				</div>
+			</div>
+			
+		</div>
+
+		
+			</div>
+
+		
+	</div>
+	<div class="clearfix"></div>
+
+		<%= render :partial => 'layouts/footer_info' %>
+		<%= render :partial => 'layouts/footer' %>
+
+<script type="text/javascript">
+
+
+
+
+	/*$(document).ready(function(){
+		var $menu = $('div.menu>ul#nav');
+		$('>li',$menu).click(function(event){
+			var $li= $(this);
+			var $submenu= $li.find('div.submenu');
+			if($submenu.length==1)
+				event.preventDefault();
+		});
+		
+		$('>li',$menu).mouseover(function(event){
+			var $li= $(this);
+			var $submenu= $li.find('ul');
+			if($submenu.length==1)
+				$submenu.stop(true,true).slideDown({complete:function(){$(this).addClass('display')}});
+		});
+		$('>li',$menu).mouseout(function(event){
+			var $li= $(this);
+
+			if($li.parent().attr('id')!='nav'){
+				//var $submenu= $li.find('div.submenu');
+				//if($submenu.length==1)
+				var $menu=$li.parent();
+				
+					$menu.stop(true,true).slideUp({complete:function(){$(this).removeClass('display')}});
+
+			}
+			else{
+				var $child_menu=$li.find('ul');
+				$child_menu.stop(true,true).slideUp({complete:function(){$(this).removeClass('display')}});
+			}
+		});*/
+
+ /*   
+  $('.menu ul li').mouseover(function () {
+     clearTimeout($.data(this,'timer'));
+     $('ul',this).stop(true,true).slideDown(200);
+  }, function () {
+    $.data(this,'timer', setTimeout($.proxy(function() {
+      $('ul',this).stop(true,true).slideUp(200);
+    }, this), 100));
+	});
+*/
+</script>
+
+</body>
+</html>

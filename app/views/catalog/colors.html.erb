@@ -1,0 +1,95 @@
+
+  <%= raw @content %>
+
+  <div id="colors-page">
+    <% if 1 == 2 %>
+    <div class="color">
+      <a href="/assets/catalog/colors/3/fancybox/Layer-35.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/3/thumb/Layer-35.jpg') %>
+      </a>
+
+      <p>&mdash; білий</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/4/fancybox/Layer-36.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/4/thumb/Layer-36.jpg') %>
+      </a>
+      <p>&mdash; світло-червоний</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/5/fancybox/Layer-34.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/5/thumb/Layer-34.jpg') %>
+      </a>
+      <p>&mdash; коричневий</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/6/fancybox/Layer-32.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/6/thumb/Layer-32.jpg') %>
+      </a>
+      <p>&mdash; сірий</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/11/fancybox/Layer-38.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/11/thumb/Layer-38.jpg') %>
+      </a>
+      <p>&mdash; зелений</p>
+    </div>
+
+    <div class="color">
+      <a href="/assets/catalog/colors/7/fancybox/Layer-341.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/7/thumb/Layer-341.jpg') %>
+      </a>
+      <p>&mdash; оливковий</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/8/fancybox/Layer-26.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/8/thumb/Layer-26.jpg') %>
+      </a>
+      <p>&mdash; червоний</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/9/fancybox/Layer-37.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/9/thumb/Layer-37.jpg') %>
+      </a>
+        <p>&mdash; синій</p>
+    </div>
+    
+    <div class="color">
+      <a href="/assets/catalog/colors/10/fancybox/Layer-33.jpg" class="fb" rel="color">
+        <%= image_tag('catalog/colors/10/thumb/Layer-33.jpg') %>
+      </a>
+      <p>&mdash; чорний</p>
+    </div>
+
+    <% end %>
+
+    <% @colors.each do | c | %>
+    <div class="color">
+      <a href="<%= c.image.url(:fancybox) %>" class="fb" rel="color">
+        <%= image_tag( c.image.url(:thumb) ) %>
+      </a>
+
+      <p>&mdash; <%= c.name %></p>
+    </div>
+    <% end %>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="clearfix"></div>
+  
+
+<script type="text/javascript">
+  $('.color a.fb').fancybox();
+</script>

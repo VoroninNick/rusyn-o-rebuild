@@ -1,0 +1,294 @@
+
+@import "_top-menu.scss";
+@import "../home-slider/_home-slider.scss";
+@import "../home-slider/_custom.scss";
+@import "_content.scss";
+@import "_footer";
+@import "_footer-info";
+
+
+
+
+
+
+
+@mixin page-shadow-wrapper{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  //padding-left: 20px;
+  //padding-right: 20px;
+  max-width: 1330px;
+}
+
+body.home-layout {
+  background-image: url(/assets/rusyn-o-pattern-rubin.gif);
+
+  div#logo{
+ //   float: left;
+  position:absolute;
+  z-index: 10;
+  //margin-left: 
+  width:auto;
+  height: auto;
+  top: 60px;
+  padding-left:40px;
+  //display: none;
+
+  }
+
+#header-wrapper{
+  position: relative;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  //max-width: 1290px;
+
+  #header-bg{
+    width: 100%;
+    position: absolute;
+    left:0;
+    height:82px;
+    background-image: url(/assets/rusyn-o-pattern-rubin.gif);
+  }
+#header{
+  @include make-page-width;
+  //width: 90%;
+  position: relative;
+  //width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1290px;
+
+  //@include make-page-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left:20px;
+  padding-right:20px;
+
+  @media(max-width:959px){
+      padding-left:0;
+      padding-right:0;
+    }
+
+  
+  #rusin-o{
+    float: left;
+
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    margin-top: 5px;
+    margin-left: 22px;
+
+    h1{
+      font: inherit;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+  }
+  #contact-info{
+    //position:relative;
+    float: right;
+    margin-top: 5px;
+    margin-right: $indent * 2;
+    width:auto;
+    //padding-right: 20px;
+
+      //position:relative;
+      //margin-top: -58px;
+      //margin-right: 76px;
+      span{
+        position:relative;
+        float: left;
+        display: inline;
+        z-index: 5;
+        color:white;
+        font-size: 14px;
+        font-weight: 400;
+        height: 15px;
+
+        
+
+        img{
+          margin-right: 7px;
+        }
+
+        a{
+          font:inherit;
+          color: inherit;
+        }
+        
+        margin-left: 30px;
+        &:first-child{
+          margin-left: 0;
+        }
+
+        &#phone{
+          //width: 134px;
+         
+        }
+      }
+  }
+}
+}
+
+
+div#header-wrapper {
+  height: 15px;
+
+  div#header-bg {
+  	width: 100%;
+  	background-image: url(/assets/rusyn-o-pattern-rubin.gif);
+  	height: 82px;
+  	position: absolute;
+  	display: block;
+	  left: 0;
+  }
+
+  div#header div#info {
+  	float: right;
+  }
+}
+
+div#page-bg {
+  width: 100%;
+  background-image: url(/assets/home-bg.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+
+  div#slider-wrapper{
+    //width: 90%;
+    @include make-page-width;
+    padding-left:20px;
+    padding-right:20px;
+    height: 500px;
+    @media(max-width:1330px){
+      height: 420px;
+    }
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    position:relative;
+    margin-top: 15px;
+
+    @media(max-width:959px){
+      padding-left:0;
+      padding-right:0;
+    }
+    
+    div#slider-shadow-holder{
+    padding-left:20px;
+    padding-right:20px;
+    position:absolute;
+    height: inherit;
+    width: 100%;
+    left:0;
+
+    @media(max-width:1290px){
+      padding-left:0;
+      padding-right:0;
+    }
+
+    div#slider {
+
+      
+      position:relative;
+      //left: 0;
+      
+      //width: inherit;
+      height: inherit;
+      box-shadow: 0 0 10px 0.5em rgba(50,50,50,0.4);
+    
+
+      #slider-bg {
+        height: 55px;
+        background-image: url(/assets/rusyn-o-pattern-rubin.gif);
+        width: 100%;
+        position: absolute;
+      }
+
+      div#slide1 {
+        background-color: #aaaaaa;
+        //background-image:slide
+        height: inherit;
+        position: relative;
+      }
+    }
+  }
+  }
+
+
+  div#page-shadow-wrapper {
+  	//@extend .container;
+
+    @include make-page-width;
+    height: auto;
+    margin-top: 0;
+    padding-left: 20px;
+    padding-right:20px;
+
+    @media(min-width:$desktop_menu_screen_width){
+      margin-top: -49px;
+    }
+    //width: 100%;
+    //padding-left:20px;
+    //padding-right:20px;
+
+    div#content-shadow{
+      width: 100%;
+      height: inherit;
+      padding-left:0px;
+      padding-right:0px;
+
+      @media(max-width:959px){
+      padding-left:0;
+      padding-right:0;
+    }
+    div#shadow {
+      
+      
+      height: auto;
+      box-shadow: 0 0 10px 0.5em rgba(50,50,50,0.3);
+
+      div#home-page-content {
+        background-color: #ffffff;
+        position: relative;
+
+        div#overlay-wrapper{
+          position: absolute; 
+          z-index: 0;
+          //padding-right: 40px; 
+          height: 41px;
+          width:100%;
+
+
+          //@include make-page-width;
+          
+          @media(max-width:959px){
+            display: none;
+          }
+
+          div#overlay{
+            height: inherit; 
+            background: none repeat scroll 0% 0% white;
+          }
+        }
+      }
+
+      
+    }
+  }
+
+
+  }
+}
+
+
+
+
+
+
+
+    }

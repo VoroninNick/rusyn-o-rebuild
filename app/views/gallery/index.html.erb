@@ -1,0 +1,31 @@
+<div class="page-content gallery-albums">
+	<h2 class="page-title"><%= @body_title %></h2>
+	<div id="view">
+		<ul>
+			<li>
+				<a href="/gallery/images">Всі фотографії</a>
+			</li>
+			<li>
+				<span>Альбоми</span>
+			</li>
+			<div class="clearfix"></div>
+		</ul>
+	</div>
+	<%= render :partial => 'gallery/gallery_tags' %>
+	<div id="albums">
+		<% for i in 0..5 %>
+		<div class="album">
+			<div class="image-container">
+				<a href="<%= '/gallery/album' %>">
+					<img src="assets/gallery-img-1.png"/>
+				</a>
+				<div class="album-description">
+					<h5 class="album-title"><a href="/gallery/album">Назва фотоальбому не дуже коротка...</a></h5>
+					<p class="images-count">17 фотографій</p>
+				</div>
+			</div>
+		</div>
+		<% end %>
+		<div class="clearfix"></div>
+	</div>
+</div>

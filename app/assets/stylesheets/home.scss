@@ -1,0 +1,61 @@
+@import "_init";
+
+@import "layouts/home-layout";
+
+@import "pages/home";
+
+
+
+
+@import "fancybox/jquery.fancybox";
+@import "fancybox/helpers/jquery.fancybox-buttons";
+@import "fancybox/helpers/jquery.fancybox-thumbs";
+
+
+@import "elastislide/custom";
+@import "elastislide/demo";
+@import "elastislide/elastislide";
+
+
+body.home-layout {
+  background-image: url(/assets/rusyn-o-pattern-rubin.gif);
+}
+
+
+
+/////////////////
+
+
+@import "_init";
+
+@import "layouts/common-layout";
+
+@import "form-style";
+
+
+@import "pages/about";
+@import "pages/contact";
+@import "pages/articles";
+@import "pages/article-item";
+@import "pages/gallery-template";
+@import "pages/gallery-albums";
+@import "pages/gallery-images";
+@import "pages/catalog-home";
+@import "pages/catalog-category";
+@import "pages/catalog-colors";
+@import "pages/catalog-blagoustriy";
+
+
+@import "fancybox/jquery.fancybox";
+@import "fancybox/helpers/jquery.fancybox-buttons";
+@import "fancybox/helpers/jquery.fancybox-thumbs";
+
+
+//@import "elastislide/custom";
+//@import "elastislide/demo";
+//@import "elastislide/elastislide";
+
+@import "layouts/top-menu.scss";
+//@import "layouts/mobile-menu.scss";
+
+//@import "top-navigation-mobile-component.scss";

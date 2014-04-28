@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  size: MyString
+  quantity: MyString
+  weight: MyString
+
+two:
+  size: MyString
+  quantity: MyString
+  weight: MyString

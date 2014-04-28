@@ -1,0 +1,17 @@
+<%= render :partial => 'gallery/gallery_template' %>
+	<div id="images-container" class="gallery-container images-container">
+		<% @images.each_with_index do |image,index| %>
+		<div class="image <% if @total == @end && @end == index + 1 %>end-image<% end %>">
+			<div class="image-container">
+				<a rel="all_images" class="fb" href="<%= image.image.url(:big) %>">
+					<img src="<%= image.image.url(:items) %>"/>
+				</a>
+			</div>
+		</div>
+		<% end %>
+		<div class="clearfix"></div>
+	</div>
+
+<script>
+	$('a.fb').fancybox();
+</script>

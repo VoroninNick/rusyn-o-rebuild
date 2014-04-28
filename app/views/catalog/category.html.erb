@@ -1,0 +1,226 @@
+
+<div class="page-content catalog-category">
+	<h1 class="page-title"><%= @body_title %></h1>
+	<% if @category_not_found == false then %>
+		<div id="catalog-category">
+
+			<% if @category.child_categories.count > 0 %>
+				<% @category.child_categories.each do |subcategory| %>
+					<div id="<%= subcategory.category_url %>" class="catalog-subcategory">
+						<% subcategory.category_items.each do |item| %>
+						
+							<%= render partial: 'catalog/catalog_item', locals: { item: item } %>
+						<% end %>
+
+					</div>
+				<% end %>
+			<% else %>
+				<% @category.category_items.each do |item| %>
+					<%= render partial: 'catalog/catalog_item', locals: { item: item } %>
+				<% end %>
+			<% end %>
+		</div>
+
+		<div class="clearfix"></div>
+	<% else %>
+	<div id="category-not-fount">
+		<h1> 
+			We're sorry but category you want was not found
+		</h1>
+	</div>
+	<% end %>
+</div>
+
+
+
+
+
+<!--<script type="text/javascript" src="/assets/test/vulsaislider.js" ></script>-->
+<!--<script type="text/javascript">
+	$(document).ready(function(){
+		$('a').mouseover(function(){
+		  	var $link = $(this);
+			//alert($link.padding().top);
+			//$link.blur();
+		});
+
+		mycarousel=$('.catalog-category-item:eq(0) #carousel').carousel();
+			
+/*
+			$carousel = $('.item-images #carousel');
+
+			function carousel(selector){
+				var $carousels = $(selector);
+				
+				$carousels.each(function(index,item){
+
+					var $carousel = $(item);
+					var $items = [];
+					this.options = {
+
+					};
+
+
+					this.init= function(){
+						$items = $carousel.find('div.image-container');
+						//$items.wrap('<div id="items-wrapper"></div>');
+						$itemsWrapper = $carousel.append('<div id="items-wrapper"></div>');
+
+						console.log('init called:'+$carousel.length);
+					};
+
+					this.init();
+					
+					//return this;
+				});
+
+				
+			}
+			carousel($carousel);*/
+
+			//$carousel = $('.item-images #carousel').vulsaiSlider();
+			//$carousel.fade();
+	});
+</script>
+
+-->
+
+<script type="text/javascript" src="/assets/jquery.jcarousel/jquery.jcarousel.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/jquery.jcarousel/skin.css" />
+
+<script type="text/javascript" src="/assets/jquery.elastislide.js"></script>
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    //jQuery('.item-images .item-images-carousel').jcarousel();
+    //$("a.grouped_elements").fancybox();
+    //$('ul#small-images').unbind('click.fb-start');
+    /*$('a.grouped_elements').fancybox({
+    	onStart : function(){
+    		$link = $(this);
+    		//$
+    	},
+    	onClosed : function(){
+    		$link = $(this);
+
+    	}
+    });*/
+	var $items = $('.catalog-category-item');
+	$items.each(function(index){
+		var $item = $(this);
+		var $images = $item.find('.item-images a');
+		$images.attr('rel', ''+(index+1));
+		//$images.fancybox({type:'image'});
+		$images.addClass('myfb');
+
+		$item.find('ul#small-images, ul#small-images li').css('overflow', 'visible');
+
+		$item.find('.item-images a').click(function(event){
+			var $link = $(this);
+			console.log('this:');
+			console.log($(this));
+			console.log('end');
+			if($link.hasClass('myfb') == false){
+				event.preventDefault();
+				console.log('hello');
+				var id = $link.attr('rel');
+				id--;
+				var $item = $('.catalog-category-item:eq('+id+')');
+				//var $small_links = $item.find('ul#small-images li a');
+				var $zoomed_link = $item.find('.zoomed-in a').eq(0);
+				console.log($item);
+				var $zoomed_link_parent = $zoomed_link.parent();
+
+				var $link_parent = $link.parent();
+				var link_href = $link.attr('href').toString();
+				var a = link_href;
+				var b = $zoomed_link.attr('href').toString();
+				$link.attr('href', a);
+				$zoomed_link.attr('href', b);
+				console.log('a: '+a);
+				console.log('b: '+b);
+
+				var $zoomed_link_bg = $zoomed_link.find('img');
+				var $image = $link.find('img');
+				var link_bg = $link.css('background-image');
+				//$link.css('background-image', $zoomed_link.css('background-image'));
+				//$image.attr('src', $zoomed_image.attr('src'));
+				//$zoomed_link.css('background-image', link_bg );
+
+				$link.appendTo($zoomed_link_parent);
+				$zoomed_link.appendTo($link_parent);
+
+
+				//$item.find('.image-container a').stop();
+
+				var zoomed_link_offset_left = $zoomed_link.offset().left;
+				var link_offset_left = $link.offset().left;
+				console.log('left:'+(link_offset_left - zoomed_link_offset_left ));
+				$zoomed_link.css({'top':'-260px','width':'248px','height':'248px',left:''+( link_offset_left - zoomed_link_offset_left )+'px'});
+				$link.css({'margin-top':'260px',width:'75px',height:'75px','margin-left':''+( zoomed_link_offset_left - link_offset_left )+'px' });
+				var zooming_in_css = {'margin-top':'0px',width:'248px',height:'248px','margin-left':'0px'};
+				var zooming_out_css = {'top':'0px', width: '75px', height: '75px',left:'0px'};
+
+				$item.find('.zooming-in').stop().css(zooming_in_css).removeClass('zooming-in').addClass('zoomed-in').addClass('myfb');
+				$item.find('.zooming-out').stop().css(zooming_out_css).removeClass('zooming-out').addClass('zoomed-out').removeClass('myfb');
+
+
+				$link.addClass('zooming-in');
+				$link.animate(zooming_in_css,1000, function(){
+					$link.addClass('myfb');
+					//$link.css({'top':'0'});
+					//$link.attr('style','');
+					$link.removeClass('zooming-in');
+					$link.addClass('zoomed-in');
+				});
+				$zoomed_link.addClass('zooming-out');
+				$zoomed_link.animate(zooming_out_css,1000, function(){
+					//$zoomed_link.insertBefore($item.find('ul#small-images li'));
+					
+					//$zoomed_link.css('margin-top','0');
+					$zoomed_link.removeClass('myfb');
+					$zoomed_link.removeClass('zooming-out');
+					$zoomed_link.addClass('zoomed-out');
+				});
+				//$item.find('.zoomed-in a').animate({'margin-top':'260px', width: '75px', height: '75px'});
+			}
+		});
+
+		$('.myfb').fancybox({
+			beforeLoad : function(){
+				ms = $(this);
+				//alert('hello');
+				$('.catalog-category-item ul#small-images a').addClass('myfb');
+			},
+			beforeClose : function(){
+				mc = $(this);
+				//alert('bye');
+				$('.catalog-category-item ul#small-images a').removeClass('myfb');
+			}
+		});
+		
+		$item.find('ul#small-images .myfb').removeClass('myfb');
+
+		//$('ul#small')
+	});
+
+	//$('ul#small-images a').off('click.fb-start');
+    //$('ul#small-images').unbind('click.fb-start');
+    //jQuery('a').unbind('click.fb').removeData('fancybox');
+    //$('a[rel*=group-1]').fancybox({live: false});
+    //$('ul#small-images a').unbind('click');
+    //$('.zoomed-in').click(function(event){
+    //	var $container = $(this);
+    //	event.preventDefault();
+    	//$(document).unbind('click.fb-start');
+    	//$.fancybox();
+    //	$(this).fancybox();
+    //});
+
+    //images=$("a.grouped_elements");
+    //$( '.item-images .item-images-carousel' ).elastislide();
+});
+
+
+</script>

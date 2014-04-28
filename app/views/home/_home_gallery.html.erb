@@ -1,0 +1,120 @@
+
+<style>
+	ul#carousel  li .bw-wrapper .BWfade{
+		margin-top:2px;
+		margin-left: 2px;
+	} 
+</style>
+            <div class="demo-1">
+
+				<!-- Elastislide Carousel -->
+              <style>
+                /*.elastislide-next,
+                .elastislide-prev{
+                  display: none !important;
+                }*/
+              </style>
+				<ul id="carousel" class="elastislide-list">
+
+					<li>
+						<a class="grouped_elements" rel="group1" href="/assets/gallery/1.jpg" alt="image01" >
+							<img src="/assets/gallery/1-thumb-bw.jpg" alt="" onmouseover="this.src='/assets/gallery/1-thumb.jpg'" onmouseout="this.src='/assets/gallery/1-thumb-bw.jpg'"/>
+						</a>
+					</li>
+
+					<li>
+						<a class="grouped_elements" rel="group1" href="/assets/gallery/2.jpg" alt="image02" >
+							<img src="/assets/gallery/2-thumb-bw.jpg" alt="" onmouseover="this.src='/assets/gallery/2-thumb.jpg'" onmouseout="this.src='/assets/gallery/2-thumb-bw.jpg'"/>
+						</a>
+					</li>
+
+					<li>
+						<a class="grouped_elements" rel="group1" href="/assets/gallery/3.jpg" alt="image03" >
+							<img src="/assets/gallery/3-thumb-bw.jpg" alt="" onmouseover="this.src='/assets/gallery/3-thumb.jpg'" onmouseout="this.src='/assets/gallery/3-thumb-bw.jpg'"/>
+						</a>
+					</li>
+
+					<li>
+						<a class="grouped_elements" rel="group1" href="/assets/gallery/4.jpg" alt="image04" >
+							<img src="/assets/gallery/4-thumb-bw.jpg" alt="" onmouseover="this.src='/assets/gallery/4-thumb.jpg'" onmouseout="this.src='/assets/gallery/4-thumb-bw.jpg'"/>
+						</a>
+					</li>
+
+					<li>
+						<a class="grouped_elements" rel="group1" href="/assets/gallery/5.jpg" alt="image05" >
+							<img src="/assets/gallery/5-thumb-bw.jpg" alt="" onmouseover="this.src='/assets/gallery/5-thumb.jpg'" onmouseout="this.src='/assets/gallery/5-thumb-bw.jpg'"/>
+						</a>
+					</li>
+
+					<li>
+						<a class="grouped_elements" rel="group1" href="/assets/gallery/6.jpg" alt="image06" >
+							<img src="/assets/gallery/6-thumb-bw.jpg" alt="" onmouseover="this.src='/assets/gallery/6-thumb.jpg'" onmouseout="this.src='/assets/gallery/6-thumb-bw.jpg'"/>
+						</a>
+					</li>
+
+					
+				</ul>
+				<!-- End Elastislide Carousel -->
+		</div>
+		
+		
+		<script type="text/javascript" src="/assets/jquery.elastislide.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+			  $( '#carousel' ).elastislide();
+			  $("a.grouped_elements").fancybox();
+
+			  
+			  /*console.log('hello');
+			  $.ajax({
+			  	url:"assets/pixastic/pixastic.custom.js", 
+			  	success: function(data, textStatus, jqxhr) {
+   			      //console.log(data); //data returned
+   		          //console.log(textStatus); //success
+                  //console.log(jqxhr.status); //200
+                  console.log('Load was performed.');
+                  $('#gallery li a .pixastic').pixastic('desaturate');
+                  $('#gallery li a img:eq(0)').pixastic('desaturate');
+
+                  $('#gallery li a img').each(function(){
+			  	var $img = $(this);
+			  	var $link = $img.parent();
+			  	var $clone = $img.clone();
+			  	//$clone.appendTo($link);
+			  	$clone.css({
+			  		'position':'absolute',
+			  		'top':0
+			  	});
+			  	$clone.addClass('pixastic');
+			  	//$clone.pixastic('desaturate');
+			  	$img.pixastic('desaturate');
+			  	//$link.delay(5000);
+			  	//$link.find('.pixastic').pixastic('desaturate');
+			  	//$clone.attr('src','/assets/gallery/2.jpg');
+			  	$link.mouseover(function(){
+			  	  //$pixastic.animate({'opacity':0});
+			  	  Pixastic.process($('#gallery li:eq(0) a img').get(0), "desaturate", {average : false});
+			  	});
+			  	$link.mouseout(function(){
+			  	  //$pixastic.animate({'opacity':1});
+			  	});
+			  });
+
+                  console.log('success');
+
+                  setTimeout(function(){
+                  	Pixastic.process($('#gallery li:eq(0) a img').get(0), "desaturate", {average : false});
+                  },5000);
+			    },
+			    error: function(argument) {
+			    	console.log('error');
+			    }
+
+			  //$('#gallery li a .pixastic').pixastic('desaturate');
+
+			});*/
+		});
+
+
+			
+		</script>

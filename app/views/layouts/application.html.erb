@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="<%= browser.name.downcase %>">
+<head>
+  <meta name="keywords" content="<%= @meta_keywords %>" >
+  <meta name="description" content="<%= @meta_description %>" >
+  <title><%= @head_title %></title>
+  <%= csrf_meta_tags %>
+  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    "application" %>
+
+  <!-- javascript_include_tag "ga" -->
+</head>
+
+<body class="common-layout">
+
+<div id="page-bg" style="background-image: url(/assets/bgs/bg-<%= rand(2)+1 %>.jpg);background-size:100%;">
+	<div id="page-wrapper">
+	<div id="header-wrapper" class="">
+			<div id="header-bg"></div>
+			
+			<div id="header" class="">
+				<div id="shadow-wrapper">
+				<div id="header-content">
+				<div id="logo">
+					<a href="/">
+						<img src="/assets/common-layout/logo2.png"/>
+					</a>
+				</div>
+				<div id="info">
+					<span class="site-title">Вібропресовані бетонні вироби</span>
+					<div class="clearfix"></div>
+					<div id="contact-details">
+						<span><a class="image-link" href="mailto:oprusko@meta.ua"><%= image_tag 'common-layout/mail.png' %></a><a href="mailto:oprusko@meta.ua">info</a></span>
+						<span><a class="image-link" href="tel:+38 (067) 341-69-09"><%= image_tag 'common-layout/phone.png' %></a><a href="tel:+38 (067) 341-69-09">+38 (067) 341-69-09</a></span>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				</div>	
+			</div><!-- /#shadow-wrapper -->
+		</div><!-- /#header-wrapper -->
+			<div class="clearfix"></div>
+		</div>
+	
+	<div id="page-shadow-wrapper">
+		<div id="content-shadow">
+			<div id="shadow">
+		
+		<div id="menu-holder">
+			<div id="menu-wrapper">
+				<%= render :partial => 'layouts/common_top_navigation' %>
+
+
+				<div class="clearfix"></div>
+			</div>
+			<div id="overlay-wrapper" style="">
+						<div id="overlay" style="">
+							<div id="breadcrumbs">
+								<% #render_breadcrumbs :separator => '' %>
+								<ul>
+									<% if defined? @breadcrumbs %>
+								<% @breadcrumbs.each_key do |key| %>
+									<li>
+									<% b = @breadcrumbs[key] %>
+										
+									<% if b[:link]==false || b.has_key?(:link) %>
+										<span><%= b[:title] %></span>
+									<% else %>
+										<a href="<%= b[:path] %>">
+											<%= b[:title] %></a>
+									<% end %>
+									</li>							
+								<% end %>
+								<% end %>
+								</ul>
+							</div>
+						</div>
+					</div>
+		</div>
+		
+				
+				
+				<div class="page-content <%= params[:controller] +' ' + params[:action] %>">
+					
+					<%= yield %>
+
+					<div class="clearfix"></div>
+
+				<div class="nav-next-page-wrapper">
+                    <div class="indent"></div>
+                    <div class="nav-next-page-container">
+
+                        <div class="nav-next-page">
+
+                            <%= raw @static_data.next_page_link if !@static_data.nil? %>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+				</div>
+			</div>
+
+
+		
+							</div>
+			
+		</div>
+
+		
+			</div>
+
+	</div> <!-- /page-bg -->	
+	</div>
+	<div class="clearfix"></div>
+</div>
+<div id="full-footer">
+<%= render :partial => 'layouts/footer_info' %>
+
+<%= render :partial => 'layouts/footer' %>
+<div class="clearfix"></div>
+</div>
+<script type="text/javascript">
+	/*$(document).ready(function(){
+		var $menu = $('div.menu>ul#nav');
+		$('>li',$menu).click(function(event){
+			var $li= $(this);
+			var $submenu= $li.find('div.submenu');
+			if($submenu.length==1)
+				event.preventDefault();
+		});
+		
+		$('>li',$menu).mouseover(function(event){
+			var $li= $(this);
+			var $submenu= $li.find('ul');
+			if($submenu.length==1)
+				$submenu.stop(true,true).slideDown({complete:function(){$(this).addClass('display')}});
+		});
+		$('>li',$menu).mouseout(function(event){
+			var $li= $(this);
+
+			if($li.parent().attr('id')!='nav'){
+				//var $submenu= $li.find('div.submenu');
+				//if($submenu.length==1)
+				var $menu=$li.parent();
+				
+					$menu.stop(true,true).slideUp({complete:function(){$(this).removeClass('display')}});
+
+			}
+			else{
+				var $child_menu=$li.find('ul');
+				$child_menu.stop(true,true).slideUp({complete:function(){$(this).removeClass('display')}});
+			}
+		});*/
+
+ /*   
+  $('.menu ul li').mouseover(function () {
+     clearTimeout($.data(this,'timer'));
+     $('ul',this).stop(true,true).slideDown(200);
+  }, function () {
+    $.data(this,'timer', setTimeout($.proxy(function() {
+      $('ul',this).stop(true,true).slideUp(200);
+    }, this), 100));
+	});
+*/
+</script>
+
+</body>
+</html>

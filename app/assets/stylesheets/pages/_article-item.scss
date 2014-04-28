@@ -1,0 +1,9 @@
+
+
+.page-content.article{
+	#article{
+		@include init-grid;
+		@include grid(12);
+		margin-bottom: 60px;
+	}
+}

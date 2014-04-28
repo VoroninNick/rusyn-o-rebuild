@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  address: MyText
+  working_hours: MyText
+  contacts: MyText
+  map_coordinates: MyString
+
+two:
+  address: MyText
+  working_hours: MyText
+  contacts: MyText
+  map_coordinates: MyString

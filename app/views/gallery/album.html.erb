@@ -1,0 +1,17 @@
+<%= render :partial => 'gallery/gallery_template' %>
+	<div id="images-container" class="gallery-container images-container" data-album-url="<%= @album.url %>">
+		<% @images.each do |image| %>
+		<div class="image">
+			<div class="image-container">
+				<a class="fb" rel="gallery" href="<%= image.image.url(:big) %>">
+					<img src="<%= image.image.url(:items) %>"/>
+				</a>
+				
+			</div>
+		</div>
+		<% end %>
+		<div class="clearfix"></div>
+	</div>
+<script>
+	$('a.fb').fancybox();
+</script>

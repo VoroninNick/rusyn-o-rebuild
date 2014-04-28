@@ -1,0 +1,48 @@
+$block-margins: 40px;
+$block-footer-margins: 60px;
+$text-block-antialaising: subpixel-antialiased;
+
+// colors
+$red_color:#ac202d;
+
+$mobile_menu_screen_width : 960px;
+$desktop_menu_screen_width : 961px;
+
+//@import "vars";
+
+@import "media-grid/normalize_browsers";
+@import "media-grid/init_grid_system";
+
+@import "media-grid/mixin-grid";
+@import "media-grid/@fluid-low";
+
+@import "font-system/typo";
+@import "fonts";
+//@import "layout";
+//@import "common-layout";
+//@import "pages";
+//@import "home";
+//@import "home-slider/home-slider";
+//@import "home-slider/custom";
+//@import "home-gallery/style.css";
+//@import "home-gallery/skin.css";
+@import "devise";
+//@import "nprogress";
+
+
+a:visited,a{
+  color: #ac202d;
+}
+
+#page-bg{
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.page-content.gallery{
+	padding-bottom: 60px;
+}
+
+.opera br{
+	clear:left;
+}

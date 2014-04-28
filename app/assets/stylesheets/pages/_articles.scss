@@ -1,0 +1,125 @@
+
+.page-content.articles{
+
+
+    #articles{
+      .item{
+        //@extend .g6;
+        @include init-grid();
+        @include grid(6);
+        margin-top:25px;
+		height: 140px;
+        //float: left;
+        div.image-container{
+        text-align: center;
+        //@extend .g4;
+        float: left;
+        width: 31.0%;
+          img{
+            //width:auto;
+            //height: auto;
+            position:relative;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 3px;
+            width: 100%;
+          }
+        }
+
+        div.description-container{
+          //@extend .g8;
+          float: left;
+          width: 64.0%;
+          margin-left: 5%;
+
+          h2.title{
+            a{
+              color: $red_color;
+              font-size: 18px;
+              font-weight:600;
+              border-bottom: 1px solid rgba(172, 32, 45, 0.35);
+
+              &:hover{
+                border-bottom: 1px solid rgba(172, 32, 45, 1);
+              }
+            }
+          }
+          p.description{
+            
+            color:#777777;
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 18px;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+
+
+    @media(max-width:1000px){
+      #articles{
+        .item{
+          @include grid(12);
+        }
+      }
+    }
+}
+
+#last-articles{
+  padding-bottom: 60px;
+  h2{
+	margin-bottom: 10px !important;
+  }
+  .item{
+	//@extend .g6;
+	@include init-grid();
+	@include grid(6);
+	margin-top:25px;
+	height: 140px;
+	//float: left;
+	div.image-container{
+	  text-align: center;
+	  //@extend .g4;
+	  float: left;
+	  width: 31.0%;
+	  img{
+		//width:auto;
+		//height: auto;
+		position:relative;
+		margin-left: auto;
+		margin-right: auto;
+		border-radius: 3px;
+		width: 100%;
+	  }
+	}
+
+	div.description-container{
+	  //@extend .g8;
+	  float: left;
+	  width: 64.0%;
+	  margin-left: 5%;
+
+	  h2.title{
+		a{
+		  color: $red_color;
+		  font-size: 18px;
+		  font-weight:600;
+		  border-bottom: 1px solid rgba(172, 32, 45, 0.35);
+
+		  &:hover{
+			border-bottom: 1px solid rgba(172, 32, 45, 1);
+		  }
+		}
+	  }
+	  p.description{
+
+		color:#777777;
+		font-size: 14px;
+		font-weight: 100;
+		line-height: 18px;
+		margin-top: 10px;
+	  }
+	}
+  }
+}

@@ -1,0 +1,80 @@
+<script type="text/javascript" src="/assets/jquery.ias.min.js"></script>
+<script type="text/javascript" src="/assets/jquery.black_and_white.js" ></script>
+<div class="page-content articles">
+	<style>
+		.ias_loader, .ias_trigger {
+text-align:center;
+margin: 0px 0 0px;
+padding-top: 30px;
+}
+
+.ias_trigger a:link,
+.ias_trigger a:visited {
+    padding: 4px 50px;
+
+    background-color: #f9f9f9;
+    border: solid 1px #ddd;
+    border-radius: 2px;
+
+    font: bold 12px Arial, sans-serif;
+    color: #555;
+    text-decoration: none;
+}
+
+.ias_trigger a:hover,
+.ias_trigger a:active {
+    border-color: #ccc;
+}
+	</style>
+	<h1 class="page-title"><%= @body_title %></h1>
+	<div id="articles">
+		<% @required_articles.each do |a| %>
+		<div class="item">
+			<div class="image-container">
+				<a href="<%= publication_item_path(a.article_url) %>">
+          <%= image_tag a.article_image.url(:bw_thumb), alt: a.article_image_alt, :onmouseover => "this.src='#{a.article_image.url(:thumb)}'", :onmouseout => "this.src='#{a.article_image.url(:bw_thumb)}'" %>
+					<!--<img src="/assets/article_images/53/thumb/211680.jpg?1375865755"/>-->
+				</a>
+			</div>
+			<div class="description-container">
+				<h2 class="title">
+					<a href="<%= publication_item_path(a.article_url) %>">
+						<%= a.article_title %>
+					</a>
+				</h2>
+				<!--<p style="color:green"><span style="color:blue">release_date: </span><%= a.release_date.to_s %></p>
+				<p style="color:green"><span style="color:blue">created_at: </span><%= a.created_at.to_s %></p>
+				<p style="color:green"><span style="color:blue">updated_at: </span><%= a.updated_at.to_s %></p>-->
+				<p class="description">
+					<%= a.article_short_description %>
+				</p>
+			</div>
+		</div>
+		<% end %>
+		<div class="clearfix"></div>
+	</div>
+	<div id="articles-nav" style="width:95.28%;margin-left:2.36%;margin-right:2.36%;" class="clearfix" >
+
+		<div style="float: left" class="previous-posts alignright">
+			<% if @prev_page > 0 %>
+				<a href="/articles/page/<%= @prev_page %>" >&laquo; Older Entries</a>
+			<% end %>
+		</div>
+		<div class="next-posts alignleft" style="float: right;">
+			<% if @next_page > 0 %>
+				<a href="/articles/page/<%= @next_page %>" >Newer Entries &raquo;</a>
+			<%end%>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$.ias({
+    container : '#articles',
+    item: '.item',
+    pagination: '#articles-nav',
+    next: '.next-posts a',
+    loader: '<img src="/assets/loader.gif"/>',
+    triggerPageThreshold: 5
+});
+
+</script>

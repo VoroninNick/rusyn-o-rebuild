@@ -1,0 +1,134 @@
+<div id="corners-container">
+<div id="page-width">
+	<div id="left-wrapper"><div id="left"><div id="corner">
+				<% for i in 1..49 %>
+					<div class="line" id="line-<%= i %>"></div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div id="right-wrapper"><div id="right"><div id="corner">
+				<% for i in 1..49 %>
+					<div class="line" id="line-<%= i %>"></div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="menu">
+			
+			<div class="menu">
+<div id="menu-shadow-wrapper">
+<div id="menu-shadow-holder">
+	<div id="menu-shadow"></div>
+</div>
+</div>
+<div class="demo-3">
+			<div id="dl-menu" class="dl-menuwrapper">
+				<button class="dl-trigger">Open Menu</button>
+				<ul id="nav" class="dl-menu">
+					<li <% if current_page?(about_path) %> class="active-menu"><span>Про компанію</span> <% else %> ><%= link_to_unless_current 'Про компанію', about_path %><% end %></li>
+					<li <% if current_page?(catalog_path) || controller.controller_name == 'catalog'  %> class="active-menu-products" <% else %> <% end %>><% if !( params[:controller] == 'catalog' && params[:action] == 'index' ) %><a href="<%= catalog_path %>" class="pr"><span>Продукція<span class="dropdown-arrow"></span></span></a><% else %><span class="pr"><span>Продукція<span class="dropdown-arrow"></span></span></span><% end %>
+							<ul class="dl-submenu">
+								<%
+								links = get_catalog_links 
+								links.each do |link| %>
+									<li>
+										<a  <% if params[:category] != link['category_url'] %> href="<%= catalog_path + '/' + link['category_url'] %>" <% else %> class="active-sub-product" <% end %> >
+											<span class="one-line mobile-one-line"><%= link['name'] %></span>
+										</a>
+									</li>
+								<% end %>
+
+								<li>
+									<a <% if current_page?(catalog_colors_path) %> class="active-sub-product" <% else %> href="<%= catalog_colors_path %>" <% end %> >
+										<span class="one-line mobile-one-line">Кольорова гама</span>
+									</a>
+								</li>
+
+								<li>
+									<a <% if current_page?(catalog_blagoustriy_path) %> class="active-sub-product" <% else %> href="<%= catalog_blagoustriy_path %>" <% end %> >
+										<span class="one-line mobile-one-line">Послуги з благоустрою</span>
+									</a>
+								</li>
+							</ul>
+					</li>
+					<li <% if current_page?(gallery_path) %> class="active-menu"><span>Фотогалерея</span> <% else %> ><%= link_to_unless_current 'Фотогалерея', gallery_path %><% end %></li>
+					<li <% if current_page?(article_main_path) %> class="active-menu"><span>Публікації</span> <% else %> ><%= link_to_unless_current 'Публікації', article_main_path %><% end %></li>
+					<li <% if current_page?(contact_path) %> class="active-menu"><span>Контакти</span> <% else %> ><%= link_to_unless_current 'Контакти', contact_path %><% end %></li>
+				</ul>
+			</div>
+			</div>
+		</div>
+			
+		</div>
+<%#= params.inspect %>
+<script type="text/javascript" src="/assets/jquery.dlmenu.js" ></script>
+<script type="text/javascript">
+	//$('#mobile-menu-button').click(function(){
+
+	//});
+	$(document).ready(function(){
+	  $( '#dl-menu' ).dlmenu({
+	    animationClasses : { classin : 'dl-animate-in-5', classout : 'dl-animate-out-5' },
+	    beforeLevelClick : function(el,name){
+	    	var $dl_trigger = $('button.dl-trigger:visible');
+	    	if($dl_trigger.length > 0 ){
+	    		console.log('mobile-menu-button');
+	    		return true;
+	    	}
+	    	else{
+	    		console.log('desktop-menu');
+	    		//$(el).off('click');
+	    		return false;
+	    	}
+	    }
+	  });
+
+	  function scrolldown($li){
+	  	if($li.find('ul.dl-submenu').length>0){
+	  		var scrollTop = $(document).scrollTop();
+	  		var window_height = window.innerHeight;
+	  		var submenu_top = $li.find('ul.dl-submenu').offset().top;
+	  		var submenu_height = $li.find('ul.dl-submenu').height();
+
+	  		var li_top = $li.offset().top;
+	  		//for(var i =0; i<5;i++ ){
+	  		//	$(document).scrollTop(scrollTop+(li_top-scrollTop)*i/5);
+	  		//	$(document).delay(200);
+
+	  		//}
+	  		var li_height = $li.height();
+	  		console.log('li_top:'+li_top+';li_height:'+li_height+';submenu_height:'+submenu_height+';scroll_top:'+scrollTop+';screen_height:'+window_height);
+	  		//$('a[href=#top]').click(function(){
+	  			if(li_top +submenu_height+li_height > scrollTop + window_height){
+    				$('html, body').animate({scrollTop:li_top}, 'slow');
+    			}	
+			//});
+	  	}
+	  }
+
+	  var need_scroll = false;
+	  var li_index = -1;
+	  $('ul#nav>li').mouseenter(function(e){
+	  	if(window.innerWidth > 960){
+	  		need_scroll = true;
+	  		li_index = $(this).index();
+	  		var $li = $(this);
+	  		setTimeout(function(){
+	  			if(need_scroll){
+	  			
+					scrolldown($li);
+				}
+	  		},1500);
+	  	}
+	  		  	
+	  });
+
+	  $('ul#nav>li').mouseleave(function(e){
+	  	need_scroll = false;
+	  });
+	});
+</script>

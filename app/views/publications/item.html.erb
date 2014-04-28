@@ -1,0 +1,68 @@
+<div class="page-content article">
+	<style>
+		#article-content{
+			float: left;
+
+		}
+		#article-image img{
+			max-width: 100%;
+		}
+
+		@media(max-width: 960px){
+			#article-image{
+				display: inline;
+				margin-right: 20px;
+				margin-bottom: 44px;
+			}
+
+			#article-content{
+				display: inline;
+				position: relative;
+				float: none;
+				top:-24px;
+			}
+		}
+	</style>
+	<h1 class="page-title"><%= @body_title %></h1>
+	<div id="article">
+		<div id="article-image" class="clearfix g4" style="">
+			<img src="<%= @article.article_image.url(:article_item_page) %>" alt="<%= @article.article_image_alt %>">
+		</div>
+		<!--<p><span id="red-text">Компанія «РУСИН-О» пропонує широкий асортимент бетонних виробів</span>, виготовлених за сучасною технологією вібропресування: стінові блоки, тротуарна плитка, дорожні бордюри, перемички, різноманітні декоративні елементи та інше. Практично кожен з запропонованих видів продукції може бути виконаний у <a href="#">різних кольорових рішеннях</a> для досягнення повної сумісності з архітектурними і дизайнерськими особливостями вашої ділянки.</p>
+		<p>Перевага нашої продукції в тому, що вона виготовляється за прогресивною технологією з додаванням спеціальних сумішей і присадок, які суттєво підвищують довговічність, надійність та інші характеристики виробів. Бетонні вироби виготовлені за даною технологією мають строгу геометрію, що суттєво полегшує роботу при будівництві чи ремонті об’єктів. Все це робить даний вид матеріалів особливим. Технологія напівсухого вібропресування зараз набуває дедалі більшого визнання у світі.</p>
+		<p>Пропонуємо ознайомитися з каталогом нашої продукції, яка може стати вам у пригоді на всіх етапах будівництва – від зведення стін до встановлення останнього клаптика тротуарної доріжки.</p>
+		<p>Окрім готової продукції «РУСИН-О» надає весь комплекс проектних та будівельних робіт по благоустрою територій з використанням представленої продукції.</p>
+		<div id="img">
+			<img src="/assets/about/img2.jpg" alt="" />
+		</div>-->
+		<div id="article-content" class="g8" >
+		<%= raw @article.article_content  %>
+		</div>
+	</div>
+  <div id="last-articles" class="clearfix">
+    <h3 class="page-title">Читайте також</h3>
+    <% @last_articles.each do |a| %>
+      <div class="item">
+        <div class="image-container">
+          <a href="<%= publication_item_path(a.article_url) %>">
+            <%= image_tag a.article_image.url(:thumb), alt: a.article_image_alt %>
+            <!--<img src="/assets/article_images/53/thumb/211680.jpg?1375865755"/>-->
+          </a>
+        </div>
+        <div class="description-container">
+          <h4 class="title">
+            <a href="<%= publication_item_path(a.article_url) %>">
+              <%= a.article_title %>
+            </a>
+          </h4>
+          <!--<p style="color:green"><span style="color:blue">release_date: </span><%= a.release_date.to_s %></p>
+				<p style="color:green"><span style="color:blue">created_at: </span><%= a.created_at.to_s %></p>
+				<p style="color:green"><span style="color:blue">updated_at: </span><%= a.updated_at.to_s %></p>-->
+          <p class="description">
+            <%= a.article_short_description %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="item-images" >
+				<%  image = item.category_item_images.first  %>
+				<% if !image.nil? %>
+				<div id="image-<%= image.id.to_s %>" class="image-container zoomed-in">
+					<a class="grouped_elements" style="background-image: url(<%= image.image.url(:middle) %>);" href="<%= image.image.url(:fancybox) %>"  
+						 >
+		    	 <!--<div class="image-overlay"></div>-->
+						<img src="<%= image.image.url(:middle) %>" alt="<%= image.image_alt %>"/>
+					</a>
+				</div>
+				<% end %>	
+				<div class="clearfix"></div>
+<% if item.category_item_images.count > 1  %>							
+	<ul id="small-images">
+		<% item.category_item_images.each_with_index do |image,index| %>
+				
+				<% if index > 0 %>
+				<li id="image-<%= image.id.to_s %>" class="carousel-item image-container 
+				<%= if index==0 then 'zoomed-in' end %>">
+					<a rel="group-1" class="grouped_elements" href="<%= image.image.url(:fancybox) %>"  
+						 style="background-image: url(<%= image.image.url(:middle) %>);" >
+		    	 		<div class="image-overlay"></div>
+						<img src="<%= image.image.url(:middle) %>" alt="<%= image.image_alt %>"/>
+					</a>
+				</li>
+				<% end %>
+				<% end %>			
+	</ul>
+<% end %>
+			</div>
