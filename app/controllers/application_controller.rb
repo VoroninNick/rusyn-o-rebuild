@@ -2,6 +2,22 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  #render inline: 'hello'
+
+
+  before_filter :save_to_traffic_history
+
+  def save_to_traffic_history
+
+    path_arr = request.path.to_s.split('/')
+    location = path_arr[1].to_s
+    if location != 'admin'
+      TrafficHistory.create!(url: request.path, user_agent: request.headers[:HTTP_USER_AGENT], ip: request.headers[:REMOTE_ADDR])
+      #render inline: location
+    end
+
+  end
+
   # for allow devise send email
   before_filter :mailer_set_url_options
 
