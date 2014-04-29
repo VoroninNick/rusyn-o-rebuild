@@ -1,6 +1,6 @@
 # coding: utf-8
 
-class Catalog4::Category < ActiveRecord::Base
+class Catalog::Category < ActiveRecord::Base
   attr_accessible  :parent_category_id, :description, :child_category_ids, :category_url, :display_index
   attr_accessible :name
   has_many :child_categories, class_name: "Category",

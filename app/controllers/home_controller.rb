@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   	@banners = Banner.order('position ASC') 
 
-  	@catalog_categories = Catalog4::Category.where('parent_category_id is null').limit(5).order('display_index asc')
+  	@catalog_categories = Catalog::Category.where('parent_category_id is null').limit(5).order('display_index asc')
 
   	@head_title = 'Головна - Русин-О - будматеріали '
 

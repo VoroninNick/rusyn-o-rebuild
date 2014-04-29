@@ -1,12 +1,12 @@
 # coding: utf-8
 
-class Catalog4::CategoryItemColor < ActiveRecord::Base
+class Catalog::CategoryItemColor < ActiveRecord::Base
   attr_accessible :image_content_type, :image_file_name, :image_file_size, :image_updated_at, :name, :rgb, :short_description
 
   #belongs_to :category, :inverse_of => :category_item_colors
 
-  #has_and_belongs_to_many :catalog4_category_items
-  #attr_accessible :catalog4_category_items, :catalog4_category_item_ids
+  #has_and_belongs_to_many :catalog_category_items
+  #attr_accessible :catalog_category_items, :catalog_category_item_ids
 
   attr_accessible :image, :delete_image
 

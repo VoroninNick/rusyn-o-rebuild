@@ -1,6 +1,6 @@
 # coding: utf-8
 
-class Catalog4::CategoryImage < ActiveRecord::Base
+class Catalog::CategoryImage < ActiveRecord::Base
   attr_accessible :category_id, :image_alt, :image_content_type, :image_file_name, :image_file_size, :image_updated_at, :short_description
 
   belongs_to :category, :inverse_of => :category_images

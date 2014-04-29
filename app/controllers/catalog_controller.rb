@@ -9,7 +9,7 @@ class CatalogController < ApplicationController
     }
     @head_title = 'Продукція -> Кольорова гама - Русин-О - будматеріали '
 
-    @colors = Catalog4::CategoryItemColor.all
+    @colors = Catalog::CategoryItemColor.all
 
     @head_title = 'Про компанію - Русин-О - будматеріали '
 
@@ -51,7 +51,7 @@ class CatalogController < ApplicationController
 
     @head_title = 'Продукція - Русин-О - будматеріали '
 
-  	@top_categories = Catalog4::Category.where('parent_category_id IS NULL').order('display_index asc')
+  	@top_categories = Catalog::Category.where('parent_category_id IS NULL').order('display_index asc')
 
     @head_title = 'Про компанію - Русин-О - будматеріали '
     @static_data = Pages::CatalogPage.first.static_page_data
@@ -74,7 +74,7 @@ class CatalogController < ApplicationController
     #}
 
   	@category_not_found = false
-  	@category = Catalog4::Category.where('category_url = "'+required_category+'"')
+  	@category = Catalog::Category.where('category_url = "'+required_category+'"')
   	if @category.count > 0 
   	#	@category = category
   		@category = @category.first

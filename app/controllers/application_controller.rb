@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   helper_method :get_catalog_links
 
   def get_catalog_links
-  	return Catalog4::Category.where('parent_category_id is null').order('display_index asc').select('name,category_url')
+  	return Catalog::Category.where('parent_category_id is null').order('display_index asc').select('name,category_url')
   end
 
   #helper_method :get_page_info

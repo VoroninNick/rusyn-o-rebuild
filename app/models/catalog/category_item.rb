@@ -1,7 +1,10 @@
 # coding: utf-8
 
-class Catalog4::CategoryItem < ActiveRecord::Base
+class Catalog::CategoryItem < ActiveRecord::Base
   attr_accessible :quantity, :size, :weight, :name, :category_id
+
+  has_and_belongs_to_many :item_colors
+  attr_accessible :item_colors#, :item_color_ids
 
   belongs_to :category, :inverse_of => :category_items
 
@@ -15,8 +18,8 @@ class Catalog4::CategoryItem < ActiveRecord::Base
 
    # colors references
 
-   #has_and_belongs_to_many :catalog4_category_item_colors
-   #attr_accessible :catalog4_category_item_colors, :catalog4_category_item_color_ids
+   #has_and_belongs_to_many :catalog_category_item_colors
+   #attr_accessible :catalog_category_item_colors, :catalog_category_item_color_ids
 
    #accepts_nested_attributes_for :category_item_colors#, :allow_destroy => true
    #attr_accessible :category_item_colors_attributes#, :allow_destroy => true
